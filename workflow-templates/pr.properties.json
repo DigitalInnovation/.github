@@ -1,0 +1,15 @@
+{
+  "name": "MnS DigitalInnovation Organization NodeJS PR Workflow",
+  "description": "MnS DigitalInnovation Organization PR CI workflow template.",
+  "iconName": "example-icon",
+  "categories": [
+    "NodeJs",
+    "JavaScript"
+  ],
+  "filePatterns": [
+    "package.json$",
+    "^Dockerfile",
+    ".*\\.md$",
+    ".*\\.[js,ts,jsx,tsx]$"
+  ]
+}
