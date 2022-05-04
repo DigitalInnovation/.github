@@ -1,0 +1,14 @@
+{
+    "name": "M&S - Java starter Workflow",
+    "description": "M&S DigitalInnovation - Java CI/CD starter workflow",
+    "iconName": "java",
+    "categories": [
+        "Java"
+    ],
+    "filePatterns": [
+        "pom.xml$",
+		"settings.gradle$",
+        "^Dockerfile",
+        ".*\\.md$"
+    ]
+}
