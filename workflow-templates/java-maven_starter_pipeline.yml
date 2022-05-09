@@ -39,7 +39,7 @@ jobs:
 # Build phases/ sctions to execute and any  arguments that you need to execute the build depending on the build tool used
 # {sample phase has been added add additional maven phase if needed }
         build_phases: clean package deploy
-        build_arguments: -Dgh_repo.pat=${{secrets.GITHUB_TOKEN}} -Dgh_repo.user='${{ secrets.USERNAME_GITHUB }}'
+        build_arguments: -Dgh_repo.pat=${{secrets.SAML_GITHUB_TOKEN}} -Dgh_repo.user='${{ secrets.SAML_GITHUB_USER }}'
         
 # Flag to run Code Quality Scan (Mandatory),       
         run_code_quality_analysis: false 
@@ -64,8 +64,8 @@ jobs:
         cr_imagename: ${{secrets.IMAGE_NAME}}
         cr_imagetag: ${{ github.run_number }} 
         cr_servername: ${{ secrets.REGISTRY_SERVER_URL }} 
-        cr_username: ${{ secrets.Container_Registry_username }}  
-        cr_password: ${{ secrets.Container_Registry_password }}  
+        cr_username: ${{ secrets.REGISTRY_USER }}  
+        cr_password: ${{ secrets.REGISTRY_PASSWORD }}  
         
 # update the tenant ID if you are using ACR 
         # cr_tenant: ${{secrets.ACR_TENANT}}  
@@ -157,8 +157,8 @@ jobs:
         image_tag: ${{ github.run_number }}
 # ACR/GCR Login Server name,Username and Password Example: <ACRname>azurecr.io
         registry_server: ${{ secrets.REGISTRY_SERVER_URL }}
-        registry_username: ${{ secrets.Container_Registry_username }} 
-        registry_password: ${{ secrets.Container_Registry_password }} 
+        registry_username: ${{ secrets.REGISTRY_USER }} 
+        registry_password: ${{ secrets.REGISTRY_PASSWORD }} 
 
 ##================================================================================================================================# 
 
