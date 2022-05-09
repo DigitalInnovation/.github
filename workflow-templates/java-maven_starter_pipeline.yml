@@ -148,9 +148,9 @@ jobs:
         
 # Set Falg to true if you want to run Container (PRISMA) Scan,provide  Scanner Console URL,username and password should be created as GitHub secret
         run_container_scan: true
-        container_scan_url: ${{ secrets.container_scan_url }}
-        container_scan_user: ${{ secrets.container_scan_user }}
-        container_scan_password: ${{ secrets.container_scan_password }} 
+        container_scan_url: ${{ secrets.CONTAINER_SCAN_URL }}
+        container_scan_user: ${{ secrets.CONTAINER_SCAN_USER }}
+        container_scan_password: ${{ secrets.CONTAINER_SCAN_PASSWORD }} 
         
 # Provide image name,tag, to be pulled in ACR. Example: nginx, 
         image_name: ${{secrets.IMAGE_NAME}}
@@ -190,7 +190,7 @@ jobs:
 # Provide Image name,tag,Namespace of the cluster to deploy
           image_name: ${{env.image}}
           image_tag: ${{ github.run_number }} 
-          cluster_namespace: ${{ secrets.cluster_namespace }}  #  sample-app
+          cluster_namespace: ${{ secrets.CLUSTER_NAMESPACE }}  #  sample-app
 # Flag to create new namespace if not already existing
           create_namespace: false
 # Additonal helm arguments eg: --set 'dockerImage=${{env.image}} and Flag to run as dry run
