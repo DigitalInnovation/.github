@@ -3,12 +3,12 @@ on: workflow_dispatch
 
 # set the environment variable to be used in the workflow and reference is using ${{env.name_declared}}
 env: 
-    APPLICATION_NAME: sample-app
-    environment: dev
-    image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
-    image_tag: ${{ github.run_number }}
-    SONAR_CLOUD_URL: https://sonarcloud.io
-    PRISMA_URL: https://europe-west3.cloud.twistlock.com/eu-2-143543845
+  APPLICATION_NAME: sample-app
+  environment: dev
+  image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
+  image_tag: ${{ github.run_number }}
+  SONAR_CLOUD_URL: https://sonarcloud.io
+  PRISMA_URL: https://europe-west3.cloud.twistlock.com/eu-2-143543845
     
 jobs:
   Pre-Work:
