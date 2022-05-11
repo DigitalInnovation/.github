@@ -10,10 +10,12 @@ on:
 env:
   Chart: helm-sample-java #Update based on the helm chart folder
   enviornment: dev  
-  image: ${{ secrets.REGISTRY_SERVER_URL }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
+  image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
   applicationName: java-mvnstarter
   image_tag: ${{ github.run_number }}
-
+  SONAR_CLOUD_URL: https://sonarcloud.io
+  
+  
 jobs:
     
 ##================================================================================================================================# 
@@ -46,7 +48,7 @@ jobs:
         
 # Ignore next 3 parameters (with cq_*) if run_code_quality_analysis is false
 # If the fag is true, Provide the Sonar URL, Project name or ProjectKey and the Sonar token to connect.
-        # cq_host_url: https://sonarcloud.io
+        # cq_host_url:  ${{env.SONAR_CLOUD_URL }}
         # cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }}
         # cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
         # cq_token: ${{ secrets.SONAR_TOKEN }}
@@ -63,7 +65,7 @@ jobs:
 # Container Registry to push (ACR/githubcontainer registry(GCR)) and the UserName, Password to connect to the Registry
         cr_imagename: ${{secrets.IMAGE_NAME}}
         cr_imagetag: ${{ github.run_number }} 
-        cr_servername: ${{ secrets.REGISTRY_SERVER_URL }} 
+        cr_servername: ${{ secrets.REGISTRY_SERVER }} 
         cr_username: ${{ secrets.REGISTRY_USER }}  
         cr_password: ${{ secrets.REGISTRY_PASSWORD }}  
         
@@ -72,7 +74,7 @@ jobs:
         
         
 ##================================================================================================================================#  
-# Code Qulaity Scan Action - SonarCloud is the Recomended Tool        
+# Code Quality Scan Action - SonarCloud is the Recommended Tool        
   
   Code_Quality_Scan:
     runs-on: ubuntu-latest #need to use self hosted runner for sonarqube.
@@ -85,7 +87,7 @@ jobs:
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality@latest
       with:
 # Provide the Sonar URL, Project name or ProjectKey and the Sonar token to connect.
-        cq_host_url: https://sonarcloud.io
+        cq_host_url: ${{env.SONAR_CLOUD_URL }}
         cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }} 
         cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
         cq_token: ${{ secrets.SONAR_TOKEN }} 
@@ -114,8 +116,8 @@ jobs:
 #         cr_imagename: java-mvnstarter_${{github.ref_name}}
 #         cr_imagetag: ${{ github.run_number }}
 #         cr_username: rahulreghu-mns #${{ secrets.REGISTRY_USER }}
-#         cr_password: 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 #${{ secrets.REGISTRY_PASS }}
-#         cr_servername: ghcr.io/digitalinnovation/ra_sample_java # ${{ secrets.REGISTRY_SERVER }}
+#         cr_password: ${{ secrets.REGISTRY_PASS }}
+#         cr_servername: ${{ secrets.REGISTRY_SERVER }}
  # Below properties is required if  you are using ACR
         #cr_tenant: ${{secrets.ACR_TENANT}}
                   
@@ -156,7 +158,7 @@ jobs:
         image_name: ${{secrets.IMAGE_NAME}}
         image_tag: ${{ github.run_number }}
 # ACR/GCR Login Server name,Username and Password Example: <ACRname>azurecr.io
-        registry_server: ${{ secrets.REGISTRY_SERVER_URL }}
+        registry_server: ${{ secrets.REGISTRY_SERVER }}
         registry_username: ${{ secrets.REGISTRY_USER }} 
         registry_password: ${{ secrets.REGISTRY_PASSWORD }} 
 
