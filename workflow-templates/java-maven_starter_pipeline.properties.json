@@ -1,6 +1,6 @@
 {
     "name": "M&S - Java starter Workflow",
-    "description": "M&S DigitalInnovation - Java CI/CD starter workflow",
+    "description": "M&S Cloud 9 DevSecOps - Java CI/CD starter workflow",
     "iconName": "java",
     "categories": [
         "Java"
