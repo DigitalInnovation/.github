@@ -1,7 +1,13 @@
 name: CICD-NODE-WEBAPP Deployment Starter Pipeline
 on: workflow_dispatch
 
+env: 
+    APPLICATION_NAME: sample-app
+    NR
+    # add your environement variables to be referenced in the piepline
+
 jobs:
+
   Pre-Work:
     runs-on: ubuntu-latest    
     steps:
