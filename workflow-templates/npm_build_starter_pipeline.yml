@@ -3,11 +3,10 @@ on: workflow_dispatch
 
 env: 
     APPLICATION_NAME: sample-app
-    NR
+    environment: dev
     # add your environement variables to be referenced in the piepline
 
 jobs:
-
   Pre-Work:
     runs-on: ubuntu-latest    
     steps:
