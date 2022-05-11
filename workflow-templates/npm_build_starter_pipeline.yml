@@ -5,9 +5,11 @@ on: workflow_dispatch
 env: 
     APPLICATION_NAME: sample-app
     environment: dev
-    image: ${{ secrets.REGISTRY_SERVER_URL }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
+    image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
     image_tag: ${{ github.run_number }}
-
+    SONAR_CLOUD_URL: https://sonarcloud.io
+    PRISMA_URL: https://europe-west3.cloud.twistlock.com/eu-2-143543845
+    
 jobs:
   Pre-Work:
     runs-on: ubuntu-latest    
@@ -63,7 +65,7 @@ jobs:
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality@latest
       with:
 # Provide the Sonar URL, Project name or ProjectKey and the Sonar token to connect.
-        cq_host_url: https://sonarcloud.io
+        cq_host_url: ${{env.SONAR_CLOUD_URL }}
         cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }}
         cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
         cq_token: ${{ secrets.SONAR_TOKEN }}
@@ -125,7 +127,7 @@ jobs:
         
 # Set Flag to true if you want to run Container (PRISMA) Scan,provide  Scanner Console URL,Access Key ID and Secret Key should be created as GitHub secret
         run_container_scan: true
-        container_scan_url: https://europe-west3.cloud.twistlock.com/eu-2-143543845
+        container_scan_url: ${{env.PRISMA_URL}}
         container_scan_user: ${{secrets.PRISMA_ACCESS_KEY_ID}}
         container_scan_password: ${{ secrets.PRISMA_SECRET_KEY }}
         
