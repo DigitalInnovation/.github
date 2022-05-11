@@ -106,21 +106,21 @@ jobs:
 # Set Flag to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
         application_name: "Name of your Application"
         run_dependency_scan: false
-        dependency_scan_token: ${{ secrets.SNYK_TOKEN }}
+        dependency_scan_token: ${{ secrets.SNYK_API_TOKEN }}
         
 # Set Flag to true if you want to run SAST (Fortify) Scan, provide Release ID,Scanner API Key and Scanner API secret should be created as secret
         run_sast_scan: false
-        sast_release_id: ${{ secrets.FOD_RELEASE_ID }}
-        sast_api_key: ${{ secrets.FOD_API_KEY}}
-        sast_api_secret: ${{ secrets.FOD_API_SECRET}}
+        sast_release_id: ${{ secrets.FORTIFY_RELEASE_ID }}
+        sast_api_key: ${{ secrets.FORTIFY_CLIENT_ID}}
+        sast_api_secret: ${{ secrets.FORTIFY_CLIENT_SECRET}}
         # flag download the sast scan result, if run_sast_scan: true
         download_sast_scan_result: true
         
 # Set Flag to true if you want to run Container (PRISMA) Scan,provide  Scanner Console URL,Access Key ID and Secret Key should be created as GitHub secret
         run_container_scan: true
         container_scan_url: https://europe-west3.cloud.twistlock.com/eu-2-143543845
-        container_scan_user: ${{secrets.PRISMA_USER}}
-        container_scan_password: ${{ secrets.PRISMA_PASSWORD }}
+        container_scan_user: ${{secrets.PRISMA_ACCESS_KEY_ID}}
+        container_scan_password: ${{ secrets.PRISMA_SECRET_KEY }}
         
 # Provide image name,tag, to be pulled in ACR. Example: nginx, 
         image_name: ${{secrets.APP_IMAGE_NAME}} 
