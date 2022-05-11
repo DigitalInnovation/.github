@@ -5,14 +5,14 @@ on:
     branches: [ main ]    
   pull_request:
   workflow_dispatch:
-
-
+  
+# set GLOBAL environment variable to be used in the workflow and reference using ${{env.name_declared}}
 env:
-      Chart: helm-sample-java #Update based on the helm chart folder
-      enviornment: dev  
-      image: ${{ secrets.REGISTRY_SERVER_URL }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
-      applicationName: java-mvnstarter
-      image_tag: ${{ github.run_number }}
+  Chart: helm-sample-java #Update based on the helm chart folder
+  enviornment: dev  
+  image: ${{ secrets.REGISTRY_SERVER_URL }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
+  applicationName: java-mvnstarter
+  image_tag: ${{ github.run_number }}
 
 jobs:
     
@@ -136,21 +136,21 @@ jobs:
 # Set Falg to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
         application_name: "Name of your Application"
         run_dependency_scan: false
-        dependency_scan_token: ${{ secrets.SNYK_TOKEN }}
+        dependency_scan_token: ${{ secrets.SNYK_API_TOKEN }}
         
 # Set Falg to true if you want to run SAST (Fortify) Scan, provide Release ID,Scanner API Key and Scanner API secret should be created as secret
         run_sast_scan: false
-        sast_release_id: ${{ secrets.FOD_RELEASE_ID }}
-        sast_api_key: ${{ secrets.FOD_API_KEY}}
-        sast_api_secret: ${{ secrets.FOD_API_SECRET}}
+        sast_release_id: ${{ secrets.FORTIFY_RELEASE_ID }}
+        sast_api_key: ${{ secrets.FORTIFY_CLIENT_ID}}
+        sast_api_secret: ${{ secrets.FORTIFY_CLIENT_SECRET}}
         # flag download the sast scan result, if run_sast_scan: true
         download_sast_scan_result: true
         
 # Set Falg to true if you want to run Container (PRISMA) Scan,provide  Scanner Console URL,username and password should be created as GitHub secret
         run_container_scan: true
-        container_scan_url: ${{ secrets.CONTAINER_SCAN_URL }}
-        container_scan_user: ${{ secrets.CONTAINER_SCAN_USER }}
-        container_scan_password: ${{ secrets.CONTAINER_SCAN_PASSWORD }} 
+        container_scan_url: ${{ secrets.PRISMA_URL }}
+        container_scan_user: ${{ secrets.PRISMA_ACCESS_KEY_ID }}
+        container_scan_password: ${{ secrets.PRISMA_SECRET_KEY }} 
         
 # Provide image name,tag, to be pulled in ACR. Example: nginx, 
         image_name: ${{secrets.IMAGE_NAME}}
@@ -167,6 +167,7 @@ jobs:
   Helm_deployment:
     runs-on: ubuntu-latest
     needs: Run_appsec_scans
+    # set the environment variable for job to use environement specific Secrets if configured.
     environment: dev
     continue-on-error: true
     steps:
@@ -194,7 +195,7 @@ jobs:
 # Flag to create new namespace if not already existing
           create_namespace: false
 # Additonal helm arguments eg: --set 'dockerImage=${{env.image}} and Flag to run as dry run
-          helm_argument: "--set 'image.repository=${{env.image}}'" # "--set 'dockerImage=${{env.image}}'"
+          helm_argument: "--set 'image.repository=${{env.image}}'"
           dry_run: false
 
 ##================================================================================================================================# 
