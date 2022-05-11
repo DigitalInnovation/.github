@@ -1,6 +1,6 @@
 {
     "name": "M&S - Node starter Workflow",
-    "description": "M&S DigitalInnovation - Node CI/CD starter workflow",
+    "description": "M&S Cloud 9 DevSecOps - Node CI/CD starter workflow",
     "iconName": "node",
     "categories": [
         "Node"
