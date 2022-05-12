@@ -1,0 +1,11 @@
+{
+    "name": "M&S - Node starter pipeline Initialization workflow",
+    "description": "M&S Cloud 9 DevSecOps - Node CI/CD starter initialization workflow",
+    "iconName": "node",
+    "categories": [
+        "Node"
+    ],
+    "filePatterns": [
+        ".*\\.md$"
+    ]
+}
