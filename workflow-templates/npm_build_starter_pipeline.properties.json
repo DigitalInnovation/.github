@@ -6,8 +6,6 @@
         "Node"
     ],
     "filePatterns": [
-        "package.json$",
-        "^Dockerfile",
         ".*\\.md$"
     ]
 }

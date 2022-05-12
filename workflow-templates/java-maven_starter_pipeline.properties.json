@@ -6,9 +6,6 @@
         "Java"
     ],
     "filePatterns": [
-        "pom.xml$",
-		"settings.gradle$",
-        "^Dockerfile",
         ".*\\.md$"
     ]
 }
