@@ -1,3 +1,4 @@
+#This is an initialization workflow for copying Java starter workflow and sample app(if required)
 name: devsecops-java-init
 on: 
   workflow_dispatch:
@@ -65,3 +66,4 @@ jobs:
           title: "automated-devsecops-repo-bootstrap-runid-${{ github.run_id }}"
           labels: |
             devsecops-init-starter-piepline-src
+
