@@ -1,0 +1,11 @@
+{
+    "name": "M&S - Cloud9 DevSecOps CI/CD Pipeline Initialization workflow",
+    "description": "M&S - Cloud9 DevSecOps CI/CD Pipeline Initialization workflow",
+    "iconName": "githubactions",
+    "categories": [
+        "Java", "Node"
+    ],
+    "filePatterns": [
+        ".*\\.md$"
+    ]
+}
