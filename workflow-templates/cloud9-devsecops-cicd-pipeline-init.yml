@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     name: devsecops-init
     env:
-      GITHUB_TOKEN: ${{ secrets.SAML_GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ github.token }}
       GITHUB_WORKSPACE: ${{ github.workspace }}
       GITHUB_REPOSITORY: ${{ github.repository }}
       APP_NAME: ${{ github.event.inputs.APP_NAME }}
@@ -45,7 +45,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: DigitalInnovation/Cloud-DevSecOps-Pipeline-Java
-          token: ${{ secrets.SAML_GITHUB_TOKEN}}
+          token: ${{github.token}} 
+          #${{ secrets.SAML_GITHUB_TOKEN}}
           ref: refs/heads/main
           path: devsecops-starter
         if: ${{ env.STACK == 'Java' }}
@@ -53,7 +54,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: DigitalInnovation/Cloud-DevSecOps-Pipeline-Node
-          token: ${{ secrets.SAML_GITHUB_TOKEN}}
+          token: ${{github.token}}  
+          #${{ secrets.SAML_GITHUB_TOKEN}}
           ref: refs/heads/main
           path: devsecops-starter
         if: ${{env.STACK == 'Node' }}
@@ -105,7 +107,8 @@ jobs:
       - name: Create Pull Request to add Starter Pipeline and sample source to build.
         uses: peter-evans/create-pull-request@v4
         with: 
-          token: ${{secrets.SAML_GITHUB_TOKEN }}
+          token: ${{github.token}} 
+          #${{secrets.SAML_GITHUB_TOKEN }}
           branch: devsecops-bootstrap
           branch-suffix: random
           commit-message: "feat: bootstrapping repo run ${{ github.run_id }}"
