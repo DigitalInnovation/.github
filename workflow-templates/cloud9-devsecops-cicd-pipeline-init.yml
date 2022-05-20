@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     name: devsecops-init
     env:
-      GITHUB_TOKEN: ${{ secret.DEVSECOPS_STARTER_INIT_PAT }}
+      GITHUB_TOKEN: ${{ secrets.DEVSECOPS_STARTER_INIT_PAT }}
       GITHUB_WORKSPACE: ${{ github.workspace }}
       GITHUB_REPOSITORY: ${{ github.repository }}
       APP_NAME: ${{ github.event.inputs.APP_NAME }}
