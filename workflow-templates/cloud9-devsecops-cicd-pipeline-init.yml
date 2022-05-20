@@ -32,7 +32,10 @@ jobs:
       APP_NAME: ${{ github.event.inputs.APP_NAME }}
       STACK: ${{ github.event.inputs.STACK_NAME }}
       SRC_FLAG: ${{github.event.inputs.INCLUDE_SAMPLE_SRC }}
-      
+    permissions:
+      contents: write
+      pull-requests: write 
+  
     steps:
       - name: Pre-check
         run: |
@@ -41,21 +44,21 @@ jobs:
 ######   Checkout repositories  #######    
       - name: Checkout repo
         uses: actions/checkout@v3
+        
       - name: Checkout Java starter repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: DigitalInnovation/Cloud-DevSecOps-Pipeline-Java
           token: ${{ secrets.DEVSECOPS_STARTER_INIT_PAT }} 
-          #${{ secrets.SAML_GITHUB_TOKEN}}
           ref: refs/heads/main
           path: devsecops-starter
         if: ${{ env.STACK == 'Java' }}
+        
       - name: Checkout Node starter repo
         uses: actions/checkout@v2
         with:
           repository: DigitalInnovation/Cloud-DevSecOps-Pipeline-Node
           token: ${{ secrets.DEVSECOPS_STARTER_INIT_PAT }}  
-          #${{ secrets.SAML_GITHUB_TOKEN}}
           ref: refs/heads/main
           path: devsecops-starter
         if: ${{env.STACK == 'Node' }}
@@ -71,7 +74,8 @@ jobs:
           cp -rf ${STARTER_REPO_WORKFLOW_PATH}/workflows/java-maven_starter_pipeline.yml ${REPO_PATH}/.github/workflows/java-maven_starter_pipeline.yml
           cp -rf ${STARTER_REPO_WORKFLOW_PATH}/workflows/pipeline_insights.yml ${REPO_PATH}/.github/workflows/pipeline_insights.yml
         if: ${{env.STACK == 'Java' }}
-      - name: Add necessary NODE STARTER PIPELINE Workflows
+        
+      - name: Add necessary NODE STARTER PIPELINE Workflows 
         run: |
           STARTER_REPO_PATH="$GITHUB_WORKSPACE/devsecops-starter"
           STARTER_REPO_WORKFLOW_PATH="${STARTER_REPO_PATH}/.github"
@@ -89,6 +93,7 @@ jobs:
           REPO_PATH=$GITHUB_WORKSPACE
           cp -rf ${STARTER_REPO_WORKFLOW_PATH}/java-maven-sample/* ${REPO_PATH}
         if: ${{env.SRC_FLAG == 'true' && env.STACK == 'Java'}}
+        
       - name: Add optional Node Sample Source Content 
         run: |
           STARTER_REPO_PATH="$GITHUB_WORKSPACE/devsecops-starter"
@@ -97,13 +102,11 @@ jobs:
           cp -rf ${STARTER_REPO_WORKFLOW_PATH}/nodejs-sample/* ${REPO_PATH}
         if: ${{env.SRC_FLAG == 'true' && env.STACK == 'Node'}}
         
-######   CLEAN UP POST PROCESSS  #######          
+######   CLEAN UP POST PROCESSS and CREATE PULL REQUEST #######          
       - name: remove the Starter Repo Local Clone
         run: |
-          ls -lart
           rm -rf ${{ github.workspace }}/devsecops-starter
-          ls -lart
-          git status
+                    
       - name: Create Pull Request to add Starter Pipeline and sample source to build.
         uses: peter-evans/create-pull-request@v4
         with: 
