@@ -17,6 +17,7 @@ env:
   image_tag: ${{ github.run_number }}
   Chart: helm-sample-java #Update based on the helm chart folder
   CLUSTER_NAMESPACE: sample-app
+  PRISMA_URL: https://europe-west3.cloud.twistlock.com/eu-2-143543845
   
 jobs:
   pre-work-setup:
@@ -178,7 +179,7 @@ jobs:
         
 # Set Falg to true if you want to run Container (PRISMA) Scan,provide  Scanner Console URL,username and password should be created as GitHub secret
         run_container_scan: true
-        container_scan_url: ${{ secrets.PRISMA_URL }}
+        container_scan_url: ${{ env.PRISMA_URL }}
         container_scan_user: ${{ secrets.PRISMA_ACCESS_KEY_ID }}
         container_scan_password: ${{ secrets.PRISMA_SECRET_KEY }} 
         
