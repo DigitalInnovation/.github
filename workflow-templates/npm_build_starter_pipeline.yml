@@ -5,16 +5,29 @@ on: workflow_dispatch
 env: 
   APPLICATION_NAME: sample-app
   environment: dev
-  image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
+  GH_REGSITRY: ghcr.io/${{github.repository}} 
+  CONTAINER_IMAGE_NAME: node-starter-webapp-sample
+  #image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
   image_tag: ${{ github.run_number }}
   SONAR_CLOUD_URL: https://sonarcloud.io
   PRISMA_URL: https://europe-west3.cloud.twistlock.com/eu-2-143543845
     
 jobs:
   Pre-Work:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest 
+    outputs:
+        GH_REGISTRY_SERVER_LOWERCASE: ${{ steps.get_gh_registry.outputs.GH_REGISTRY_LOWER }}
+        output2: ${{ steps.step2.outputs.test }}
     steps:
-    - run: echo Executing CI CD Build for Node based Sample Repository
+      - run: echo Executing CI CD Build for Node based Sample Repository
+      - name: == pre initialization and setting up Variables ======
+        id: get_gh_registry
+        run: |
+          GH_REGISTRY_NAME_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}
+          echo "::set-output name=GH_REGISTRY_LOWER::$GH_REGISTRY_NAME_LOWER"
+       
+   
+    
     
 ##================================================================================================================================# 
 # CI Build and Package / Image Creation  - GITHub Packages is rescommended for Storing packages
@@ -82,6 +95,10 @@ jobs:
     - name: ============ Checkout the repository Code ========== same as git-repo (get)
       uses: actions/checkout@v2
       
+    - name: Converting the GITHUB REGISTRY to LOWER CASE
+      run: |
+        echo "GH_REGISTRY_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}  
+        
     - name: =========  Build and push image to Container Registry. ===========
 # you can also add this as part of the build workflow by setting the build_and_push_container_image: true
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/push_image@latest
@@ -91,12 +108,12 @@ jobs:
         cr_dockerfile_path: ./
 # provide the information of the Projects ImageName, Imagetag, 
 # container Registry to push (ACR/githubcontainer registry(GCR)) and the UserName, Password to connect to the Registry
-        cr_imagename: ${{secrets.APP_IMAGE_NAME}}
+        cr_imagename: ${{env.CONTAINER_IMAGE_NAME}}
                 #devsecops_node_sample
         cr_imagetag: ${{ github.run_number }}
-        cr_username: ${{ secrets.REGISTRY_USER }}
-        cr_password: ${{ secrets.REGISTRY_PASSWORD }}
-        cr_servername: ${{ secrets.REGISTRY_SERVER }}
+        cr_username: ${{ secrets.SAML_GITHUB_USER }}
+        cr_password: ${{ secrets.SAML_GITHUB_TOKEN }}
+        cr_servername: ${{ env.GH_REGISTRY_LOWER }}
  # below properties is required if  you are using ACR
         cr_tenant: ${{secrets.ACR_TENANT}}
 
@@ -109,7 +126,9 @@ jobs:
     needs: Build_Push_Container_image
     steps:
     - uses: actions/checkout@v2
-    
+    - name: Converting the GITHUB REGISTRY to LOWER CASE
+      run: |
+        echo "GH_REGISTRY_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}  
     - uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec@latest
       with:
 # Set Flag to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
@@ -132,13 +151,13 @@ jobs:
         container_scan_password: ${{ secrets.PRISMA_SECRET_KEY }}
         
 # Provide image name,tag, to be pulled in ACR. Example: nginx, 
-        image_name: ${{secrets.APP_IMAGE_NAME}} 
+        image_name: ${{env.CONTAINER_IMAGE_NAME}} 
                #devsecops_node_sample
         image_tag: ${{ github.run_number }}
 # ACR/GCR Login Server name,Username and Password Example: <ACRname>azurecr.io
-        registry_server: ${{ secrets.REGISTRY_SERVER }}
-        registry_username: ${{ secrets.REGISTRY_USER }}
-        registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+        registry_server: ${{ env.GH_REGISTRY_LOWER }}
+        registry_username: ${{ secrets.SAML_GITHUB_USER }}
+        registry_password: ${{ secrets.SAML_GITHUb_TOKEN }}
   
 ##================================================================================================================================# 
 ####   Sample Webapp Deployment require the webapp name, and the publish profile along with the path to the pacage or source path.       
@@ -192,7 +211,7 @@ jobs:
       with: 
         set_newRelic_Deployment_marker: true
 # provide Newrelic API Key,Account ID,Application ID and Newrelic user should be created as GitHub Secret
-        newRelic_key: ${{secrets.NEWRELIC_API_KEY}}
+        newRelic_key: ${{secrets.NEWRELIC_DM_API_KEY}}
         newRelic_accountId: ${{secrets.NEWRELIC_ACCOUNTID}}
         newRelic_applicationId: ${{secrets.NEWRELIC_APP_ID}}
         newRelic_user: ${{ github.actor }}
@@ -200,4 +219,4 @@ jobs:
         comment: " Sample Test "  
         
         
-##============================END OF PIPELINE WORKFLOW=================================================================================# 
+##============================END OF PIPELINE WORKFLOW=================================================================================#
