@@ -110,7 +110,7 @@ jobs:
       - name: Create Pull Request to add Starter Pipeline and sample source to build.
         uses: peter-evans/create-pull-request@v4
         with: 
-          token: ${{secrets.GITHUB_TOKEN}} 
+          token: ${{secrets.DEVSECOPS_STARTER_INIT_PAT}} 
           branch: devsecops-bootstrap
           branch-suffix: random
           commit-message: "feat: bootstrapping repo run ${{ github.run_id }}"
