@@ -2,22 +2,24 @@ name: Starter Pipeline for Maven Project using Github registry/ACR as Artifact a
 
 on:
   push:
-    branches: [ main ]    
+    branches: [ main ]
   pull_request:
   workflow_dispatch:
-  
+    
 # set GLOBAL environment variable to be used in the workflow and reference using ${{env.name_declared}}
 env:
-  Chart: helm-sample-java #Update based on the helm chart folder
-  enviornment: dev  
-  image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
-  applicationName: java-mvnstarter
-  image_tag: ${{ github.run_number }}
-  SONAR_CLOUD_URL: https://sonarcloud.io
+  APPLICATION_NAME: java-mvnstarter
+  enviornment: dev
   
+  SONAR_CLOUD_URL: https://sonarcloud.io
+  GH_REGSITRY: ghcr.io/${{github.repository}}
+  CONTAINER_IMAGE_NAME: java-maven-starter
+  #image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
+  image_tag: ${{ github.run_number }}
+  Chart: helm-sample-java #Update based on the helm chart folder
   
 jobs:
-    
+  
 ##================================================================================================================================# 
 # CI Build and Artifact / Image Creation  -  GITHub Packages is recommended for Storing packages
 
@@ -26,12 +28,16 @@ jobs:
     steps:
     - name: ============ Checkout the repository Code ==========
       uses: actions/checkout@v2
-      
+    
+    - name: Converting the GITHUB REGISTRY to LOWER CASE
+      run: |
+        echo "GH_REGISTRY_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+          
     - name: ========== Build and push Build Artifacts to artifact Store ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI@latest
       with:
        
-  # provide the project Build tool,  build file path and its relative location
+# provide the project Build tool,  build file path and its relative location
         build_tool: maven  # Supported values:maven/mvn/gradle
         build_file_name: pom.xml
         build_file_path: .
@@ -41,19 +47,21 @@ jobs:
 # Build phases/ sctions to execute and any  arguments that you need to execute the build depending on the build tool used
 # {sample phase has been added add additional maven phase if needed }
         build_phases: clean package deploy
-        build_arguments: -Dgh_repo.pat=${{secrets.SAML_GITHUB_TOKEN}} -Dgh_repo.user='${{ secrets.SAML_GITHUB_USER }}'
+        build_arguments: -Dgh_repo.pat=${{secrets.SAML_GITHUB_TOKEN}} -Dgh_repo.user=${{ secrets.SAML_GITHUB_USER }} 
+        
         
 # Flag to run Code Quality Scan (Mandatory),       
         run_code_quality_analysis: false 
         
-# Ignore next 3 parameters (with cq_*) if run_code_quality_analysis is false
+# Ignore next 5 parameters (with cq_*) if run_code_quality_analysis is false
 # If the fag is true, Provide the Sonar URL, Project name or ProjectKey and the Sonar token to connect.
-        # cq_host_url:  ${{env.SONAR_CLOUD_URL }}
-        # cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }}
-        # cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
-        # cq_token: ${{ secrets.SONAR_TOKEN }}
-        # cq_scan_arguments: -Dsonar.organization=digitalinnovation 
-         
+        cq_host_url:  ${{env.SONAR_CLOUD_URL }}
+        cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }}
+        cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
+        cq_token: ${{ secrets.SONAR_TOKEN }}
+        cq_scan_arguments: -Dsonar.organization=digitalinnovation 
+
+# Flag to include Creation of Container Image and Push to Registry       
         build_and_push_container_image: true  # does the build create docker image and push to registry
         
 # Ignore all  parametes with cr_* if build_and_push_container_image is false [ you can also invoke this seperately]
@@ -62,15 +70,17 @@ jobs:
         cr_dockerfile_path: ./ 
         
 # Provide the information of the Projects ImageName, Imagetag, 
-# Container Registry to push (ACR/githubcontainer registry(GCR)) and the UserName, Password to connect to the Registry
-        cr_imagename: ${{secrets.IMAGE_NAME}}
+# Container Registry to push (ACR/githubcontainer registry(GCR)) and the UserName, Password to connect to the Registry you can setup secrets to reference here
+# ${{ secrets.REGISTRY_SERVER }}  ${{ secrets.REGISTRY_USER }} ${{ secrets.REGISTRY_PASSWORD }} 
+        
+        cr_servername: ${{env.GH_REGISTRY_LOWER}} 
+        cr_username: ${{secrets.SAML_GITHUB_USER }} 
+        cr_password: ${{secrets.SAML_GITHUB_TOKEN}}
+        cr_imagename: ${{env.CONTAINER_IMAGE_NAME}} # picking up image name from environment variable setup above.
         cr_imagetag: ${{ github.run_number }} 
-        cr_servername: ${{ secrets.REGISTRY_SERVER }} 
-        cr_username: ${{ secrets.REGISTRY_USER }}  
-        cr_password: ${{ secrets.REGISTRY_PASSWORD }}  
         
 # update the tenant ID if you are using ACR 
-        # cr_tenant: ${{secrets.ACR_TENANT}}  
+        cr_tenant: ${{secrets.ACR_TENANT}}  
         
         
 ##================================================================================================================================#  
@@ -96,13 +106,16 @@ jobs:
         
 ##================================================================================================================================#  
 # Create Image and push to Containder Registry - GITHUB packages is the recommended Registry Server
+# You can use a standalone action to create a image in case there is no dependency with build.
 
 
 #   Build_Push_Container_image:
 #     runs-on: ubuntu-latest    
 #     steps:
-
 #     - uses: actions/checkout@v3
+#     - name: Converting the GITHUB REGISTRY to LOWER CASE (required to push images to github packages)
+#       run: |
+#         echo "GH_REGISTRY_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 #     - name: =========  Build and push image to Container Registry. ===========
 #  # you can also add this as part of the build workflow by setting the build_and_push_container_image: true
 #       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI/push_image@latest
@@ -115,9 +128,9 @@ jobs:
 #  # Container Registry to push (ACR/githubcontainer registry(GCR)) and the UserName, Password to connect to the Registry
 #         cr_imagename: java-mvnstarter_${{github.ref_name}}
 #         cr_imagetag: ${{ github.run_number }}
-#         cr_username: rahulreghu-mns #${{ secrets.REGISTRY_USER }}
+#         cr_username: ${{ secrets.REGISTRY_USER }}
 #         cr_password: ${{ secrets.REGISTRY_PASS }}
-#         cr_servername: ${{ secrets.REGISTRY_SERVER }}
+#         cr_servername: ${{env.GH_REGISTRY_LOWER}} 
  # Below properties is required if  you are using ACR
         #cr_tenant: ${{secrets.ACR_TENANT}}
                   
