@@ -13,13 +13,25 @@ env:
   
   SONAR_CLOUD_URL: https://sonarcloud.io
   GH_REGSITRY: ghcr.io/${{github.repository}}
-  CONTAINER_IMAGE_NAME: java-maven-starter
+  CONTAINER_IMAGE_NAME: java-mvnstarter-webapp-sample
   #image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
   image_tag: ${{ github.run_number }}
   Chart: helm-sample-java #Update based on the helm chart folder
   
 jobs:
-  
+  pre-work-setup:
+    runs-on: ubuntu-latest
+    outputs:
+      GH_REGISTRY_SERVER_LOWERCASE: ${{ steps.get_gh_registry.outputs.GH_REGISTRY_LOWER }}
+      output2: ${{ steps.step2.outputs.test }}
+    steps:
+      - name: == pre initialization and setting up Variables ======
+        id: get_gh_registry
+        run: |
+          echo "GH_REGISTRY_NAME_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+          echo "::set-output name=GH_REGISTRY_LOWER::$(ghcr.io/${GITHUB_REPOSITORY,,)"
+          
+
 ##================================================================================================================================# 
 # CI Build and Artifact / Image Creation  -  GITHub Packages is recommended for Storing packages
 
@@ -145,6 +157,9 @@ jobs:
     continue-on-error: true
     steps:
     - uses: actions/checkout@v1
+    - name: Converting the GITHUB REGISTRY to LOWER CASE
+      run: |
+        echo "GH_REGISTRY_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
     
     - uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec@latest
       with:
@@ -168,12 +183,12 @@ jobs:
         container_scan_password: ${{ secrets.PRISMA_SECRET_KEY }} 
         
 # Provide image name,tag, to be pulled in ACR. Example: nginx, 
-        image_name: ${{secrets.IMAGE_NAME}}
+        image_name: ${{env.CONTAINER_IMAGE_NAME}}
         image_tag: ${{ github.run_number }}
-# ACR/GCR Login Server name,Username and Password Example: <ACRname>azurecr.io
-        registry_server: ${{ secrets.REGISTRY_SERVER }}
-        registry_username: ${{ secrets.REGISTRY_USER }} 
-        registry_password: ${{ secrets.REGISTRY_PASSWORD }} 
+# ACR/GCR Login Server name,Username and Password Example: <ACRname>azurecr.io, Leave this empty if the image is local.
+        registry_server: ${{env.GH_REGISTRY_LOWER}}     # or you have setup a secret ${{ secrets.REGISTRY_SERVER }}
+        registry_username: ${{ secrets.SAML_GITHUB_USER }} 
+        registry_password: ${{ secrets.SAML_GITHUB_PAT }} 
 
 ##================================================================================================================================# 
 
@@ -195,7 +210,7 @@ jobs:
 # Deployment environment name. Supported values: dev/release/prod 
           environment: ${{env.enviornment}}
             # Release name of the helm application
-          application_release_name: ${{env.applicationName}}-${{env.enviornment}}
+          application_release_name: ${{env.APPLICATION_NAME}}-${{env.enviornment}}
             # Kubeconfig for AKS cluster connection, should be created as GitHub secret
           kube_config: ${{ secrets.KUBE_CONFIG }}  
           # Flag to verify if this is helm deployment
@@ -204,13 +219,13 @@ jobs:
           helm_chart_path: ${{env.Chart}}
           helm_values_file: Values.yaml
 # Provide Image name,tag,Namespace of the cluster to deploy
-          image_name: ${{env.image}}
+          image_name: ${{env.CONTAINER_IMAGE_NAME}}
           image_tag: ${{ github.run_number }} 
           cluster_namespace: ${{ secrets.CLUSTER_NAMESPACE }}  #  sample-app
 # Flag to create new namespace if not already existing
           create_namespace: false
-# Additonal helm arguments eg: --set 'dockerImage=${{env.image}} and Flag to run as dry run
-          helm_argument: "--set 'image.repository=${{env.image}}'"
+# Additonal helm arguments eg: --set 'dockerImage=${{env.CONTAINER_IMAGE_NAME}} and Flag to run as dry run
+          helm_argument: "--set 'image.repository=${{env.CONTAINER_IMAGE_NAME}}'"
           dry_run: false
 
 ##================================================================================================================================# 
