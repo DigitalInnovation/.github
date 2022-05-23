@@ -28,9 +28,9 @@ jobs:
       - name: == pre initialization and setting up Variables ======
         id: get_gh_registry
         run: |
-          echo "GH_REGISTRY_NAME_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
-          echo "::set-output name=GH_REGISTRY_LOWER::$(ghcr.io/${GITHUB_REPOSITORY,,)"
-          
+          GH_REGISTRY_NAME_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}
+          echo "::set-output name=GH_REGISTRY_LOWER::$GH_REGISTRY_NAME_LOWER"
+         
 
 ##================================================================================================================================# 
 # CI Build and Artifact / Image Creation  -  GITHub Packages is recommended for Storing packages
@@ -242,7 +242,7 @@ jobs:
       with: 
         set_newRelic_Deployment_marker: true
  # provide Newrelic API Key,Account ID,Application ID and Newrelic user should be created as GitHub Secret
-        newRelic_key: ${{secrets.NEWRELIC_KEY}} 
+        newRelic_key: ${{secrets.NEWRELIC_DM_API_KEY}} 
         newRelic_accountId: ${{secrets.NEWRELIC_ACCOUNTID}}
         newRelic_applicationId: ${{secrets.NEWRELIC_APP_ID}}
         newRelic_user: ${{ github.actor }}
