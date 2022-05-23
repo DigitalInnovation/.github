@@ -8,15 +8,15 @@ on:
     
 # set GLOBAL environment variable to be used in the workflow and reference using ${{env.name_declared}}
 env:
+# CI CD PARAMETERS
   APPLICATION_NAME: java-mvnstarter
   enviornment: dev
-  
   SONAR_CLOUD_URL: https://sonarcloud.io
-  GH_REGSITRY: ghcr.io/${{github.repository}}
+  GH_REGSITRY: ghcr.io/${{github.repository}} 
   CONTAINER_IMAGE_NAME: java-mvnstarter-webapp-sample
-  #image: ${{ secrets.REGISTRY_SERVER }}/${{secrets.IMAGE_NAME}}:${{ github.run_number }}
   image_tag: ${{ github.run_number }}
   Chart: helm-sample-java #Update based on the helm chart folder
+  CLUSTER_NAMESPACE: sample-app
   
 jobs:
   pre-work-setup:
@@ -188,7 +188,7 @@ jobs:
 # ACR/GCR Login Server name,Username and Password Example: <ACRname>azurecr.io, Leave this empty if the image is local.
         registry_server: ${{env.GH_REGISTRY_LOWER}}     # or you have setup a secret ${{ secrets.REGISTRY_SERVER }}
         registry_username: ${{ secrets.SAML_GITHUB_USER }} 
-        registry_password: ${{ secrets.SAML_GITHUB_PAT }} 
+        registry_password: ${{ secrets.SAML_GITHUB_TOKEN }} 
 
 ##================================================================================================================================# 
 
@@ -221,7 +221,7 @@ jobs:
 # Provide Image name,tag,Namespace of the cluster to deploy
           image_name: ${{env.CONTAINER_IMAGE_NAME}}
           image_tag: ${{ github.run_number }} 
-          cluster_namespace: ${{ secrets.CLUSTER_NAMESPACE }}  #  sample-app
+          cluster_namespace: ${{ env.CLUSTER_NAMESPACE }}  #  sample-app
 # Flag to create new namespace if not already existing
           create_namespace: false
 # Additonal helm arguments eg: --set 'dockerImage=${{env.CONTAINER_IMAGE_NAME}} and Flag to run as dry run
