@@ -5,10 +5,44 @@ on:
     branches: [ main ]
   pull_request:
   workflow_dispatch:
-    
+
+######  Please Make sure you have the secrets setup in ################
+
+#  SAML_GITHUB_TOKEN --> PAT of Y account to connect to repository [required]
+#  SAML_GITHUB_USER --> Y account user name, [required] to authenticate github artifacts
+
+#  #####Secrets for running Code Quality#####
+#  SONAR_PROJECT_NAME
+#  SONAR_PROJECT_KEY
+#  SONAR_TOKEN
+
+#  secrets used for APP-SEC scan 
+# SNYK_API_TOKEN
+
+# FORTIFY_RELEASE_ID
+# FORTIFY_CLIENT_ID
+# FORTIFY_CLIENT_SECRET
+
+# PRISMA_URL
+# PRISMA_ACCESS_KEY_ID 
+# PRISMA_SECRET_KEY
+
+#### Secrets for webapp Deployment
+# AZURE_WEBAPP_NAME
+# AZURE_WEBAPP_PUBLISH_PROFILE
+
+#### Secrets for Helm Deployment
+KUBE_CONFIG
+
+# Secretes for setting up New relic Deployment Marker and Insights
+# NEWRELIC_API_KEY
+# NEWRELIC_ACCOUNTID
+# NEWRELIC_APP_ID
+
+
 # set GLOBAL environment variable to be used in the workflow and reference using ${{env.name_declared}}
 env:
-# CI CD PARAMETERS
+  # CI CD PARAMETERS
   APPLICATION_NAME: java-mvnstarter
   enviornment: dev
   SONAR_CLOUD_URL: https://sonarcloud.io
@@ -209,14 +243,14 @@ jobs:
       - name: Deploy application 
         uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD@latest
         with:
-# Deployment environment name. Supported values: dev/release/prod 
+          # Flag to verify if this is helm deployment
+          is_helm_deployment: true
+ # Deployment environment name. Supported values: dev/release/prod 
           environment: ${{env.enviornment}}
             # Release name of the helm application
           application_release_name: ${{env.APPLICATION_NAME}}-${{env.enviornment}}
             # Kubeconfig for AKS cluster connection, should be created as GitHub secret
-          kube_config: ${{ secrets.KUBE_CONFIG }}  
-          # Flag to verify if this is helm deployment
-          is_helm_deployment: true
+          kube_config: ${{ secrets.KUBE_CONFIG }}            
 # provide relative path,Name of the values file to use to help helm chart folder
           helm_chart_path: ${{env.Chart}}
           helm_values_file: Values.yaml
