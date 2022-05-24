@@ -58,7 +58,6 @@ jobs:
           GH_REGISTRY_NAME_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}
           echo "::set-output name=GH_REGISTRY_LOWER::$GH_REGISTRY_NAME_LOWER"
        
-   
     
     
 ##================================================================================================================================# 
@@ -95,7 +94,8 @@ jobs:
         name: devsecops-sample-app-${{github.sha }}.tgz
         path: |
           ./digitalinnovation-*.tgz     
-        
+
+
 # ##================================================================================================================================#  
 # Code Quality Scan Action - SonarCloud is the Recomended Tool
 
@@ -148,6 +148,7 @@ jobs:
         cr_servername: ${{ env.GH_REGISTRY_LOWER }}
  # below properties is required if  you are using ACR
         cr_tenant: ${{secrets.ACR_TENANT}}
+
 
 # ##===========================================================================================================================================#  
 # Appsec Scans are mandated for All Projects and has to be included in your pipeline - Set the scan flags based on your project requirements.
@@ -218,8 +219,10 @@ jobs:
         
          
     - name: 'Deploy to Azure WebApp'
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/azure-webapp@main
+      #uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/azure-webapp@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD@main
       with:
+        is_azure_webapp_deployment: true
         environment: dev    
         application_release_name: 2.10
         webapp_name: ${{secrets.AZURE_WEBAPP_NAME}}
