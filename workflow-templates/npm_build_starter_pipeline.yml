@@ -25,6 +25,10 @@ on: workflow_dispatch
 #  ### Secrets for webapp Deployment ###
 #  AZURE_WEBAPP_NAME
 #  AZURE_WEBAPP_PUBLISH_PROFILE
+#  CLIENT_ID
+#  CLIENT_SECRET
+#  SUBSCRIPTION_ID
+#  TENANT_ID
 
 #  ### Secrets for setting up New relic Deployment Marker and Insights ###
 #  NEWRELIC_API_KEY
@@ -219,18 +223,24 @@ jobs:
         
          
     - name: 'Deploy to Azure WebApp'
-      #uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/azure-webapp@main
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD@main
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD@latest
       with:
         is_azure_webapp_deployment: true
         environment: dev    
         application_release_name: 2.10
         webapp_name: ${{secrets.AZURE_WEBAPP_NAME}}
-        #source_path: .
+        
         azure_profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        #source_path: .    # you can reference source or container image:tag
         image_name: ${{needs.Pre-Work.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}
         image_tag: ${{ github.run_number }}
-   
+        
+        # the below parameters are not Required if you are using PUBLISH Profile.
+        azure_client_id: ${{secrets.SP_CLIENT_ID}}
+        azure_client_secret: ${{secrets.SP_PASSWORD}}
+        subscription: ${{secrets.SUBSCRIPTION_ID}}
+        azure_tenant_id: ${{secrets.SP_TENANT_ID}}
+        
     - uses: actions/download-artifact@v3
       with:
        name: devsecops-sample-app-${{github.sha }}.tgz
