@@ -232,9 +232,9 @@ jobs:
         webapp_name: ${{secrets.AZURE_WEBAPP_NAME}}
         
         azure_profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        #source_path: .    # you can reference source or container image:tag
-        image_name: ${{needs.Pre-Work.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}
-        image_tag: ${{ github.run_number }}
+        source_path: .    # you can reference source or container image:tag
+        #image_name: ${{needs.Pre-Work.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}
+        #image_tag: ${{ github.run_number }}
         
         # the below parameters are not Required if you are using PUBLISH Profile.
         azure_client_id: ${{secrets.SP_CLIENT_ID}}
