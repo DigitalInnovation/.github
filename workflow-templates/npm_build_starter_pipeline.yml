@@ -198,7 +198,7 @@ jobs:
 # # Deploy the webapp to the webapp layer  
   Deploy-webapp:
     runs-on: ubuntu-latest
-    needs: [Pre-Work, Build_Push_Container_image]
+    needs: [Pre-Work, Build_Push_Container_image]  # needs pre-work if you are referencing the output
     steps:  
     - uses: actions/checkout@v2
 
@@ -226,8 +226,10 @@ jobs:
         environment: dev    
         application_release_name: 2.10
         webapp_name: ${{secrets.AZURE_WEBAPP_NAME}}
-        source_path: .
+        #source_path: .
         azure_profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        image_name: ${{needs.Pre-Work.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}
+        image_tag: ${{ github.run_number }}
    
     - uses: actions/download-artifact@v3
       with:
