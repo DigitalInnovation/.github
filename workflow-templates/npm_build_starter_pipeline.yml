@@ -25,10 +25,11 @@ on: workflow_dispatch
 #  ### Secrets for webapp Deployment ###
 #  AZURE_WEBAPP_NAME
 #  AZURE_WEBAPP_PUBLISH_PROFILE
-#  CLIENT_ID
-#  CLIENT_SECRET
+#  ### the below sercice principal secretes are needed if PUBLISH PROFILE is not used for Deployment
+#  SP_CLIENT_ID
+#  SP_PASSWORD
 #  SUBSCRIPTION_ID
-#  TENANT_ID
+#  SP_TENANT_ID
 
 #  ### Secrets for setting up New relic Deployment Marker and Insights ###
 #  NEWRELIC_API_KEY
@@ -151,7 +152,7 @@ jobs:
         cr_password: ${{ secrets.SAML_GITHUB_TOKEN }}
         cr_servername: ${{ env.GH_REGISTRY_LOWER }}
  # below properties is required if  you are using ACR
-        cr_tenant: ${{secrets.ACR_TENANT}}
+        cr_tenant: ${{secrets.SP_TENANT_ID}}
 
 
 # ##===========================================================================================================================================#  
