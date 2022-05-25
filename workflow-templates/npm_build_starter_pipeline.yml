@@ -48,7 +48,7 @@ env:
   image_tag: ${{ github.run_number }}
   SONAR_CLOUD_URL: https://sonarcloud.io
   PRISMA_URL: https://europe-west3.cloud.twistlock.com/eu-2-143543845
-    
+  SP_TENANT_ID: bd5c6713-7399-4b31-be79-78f2d078e543  
 jobs:
   Pre-Work:
     runs-on: ubuntu-latest 
@@ -204,6 +204,7 @@ jobs:
   Deploy-webapp:
     runs-on: ubuntu-latest
     needs: [Pre-Work, Build_Push_Container_image]  # needs pre-work if you are referencing the output
+    environment: Nonprod
     steps:  
     - uses: actions/checkout@v2
 
@@ -232,15 +233,15 @@ jobs:
         webapp_name: ${{secrets.AZURE_WEBAPP_NAME}}
         
         azure_profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        #source_path: .    # you can reference source or container image:tag
-        image_name: ${{needs.Pre-Work.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}
-        image_tag: ${{ github.run_number }}
+        source_path: .    # you can reference source or container image:tag
+        #image_name: ${{needs.Pre-Work.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}
+        #image_tag: ${{ github.run_number }}
         
         # the below parameters are not Required if you are using PUBLISH Profile.
 #         azure_client_id: ${{secrets.SP_CLIENT_ID}}
 #         azure_client_secret: ${{secrets.SP_PASSWORD}}
 #         subscription: ${{secrets.SUBSCRIPTION_ID}}
-#         azure_tenant_id: ${{secrets.SP_TENANT_ID}}
+#         azure_tenant_id: ${{env.SP_TENANT_ID}}
         
     - uses: actions/download-artifact@v3
       with:
