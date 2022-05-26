@@ -3,6 +3,9 @@
     "description": "M&S - Cloud9 DevSecOps CI/CD Starter Pipeline Initialization workflow",
     "iconName": "githubactions",
     "filePatterns": [
-        ".*\\.md$"
+        ".*\\.md$",
+        "pom.xml$",
+		"settings.gradle$",
+        "package.json$"                
     ]
 }
