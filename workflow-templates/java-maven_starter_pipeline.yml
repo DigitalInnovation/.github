@@ -125,7 +125,7 @@ jobs:
         
 # update the tenant ID if you are using ACR 
         cr_tenant: ${{secrets.ACR_TENANT}}  
-        
+        cr_subscription: ${{secrets.SUBSCRIPTION_ID}}
         
 ##================================================================================================================================#  
 # Code Quality Scan Action - SonarCloud is the Recommended Tool        
@@ -177,7 +177,7 @@ jobs:
         
 #  # Below properties is required if  you are using ACR
 #         #cr_tenant: ${{secrets.ACR_TENANT}}
-                  
+#         #cr_subscription: ${{secrets.SUBSCRIPTION_ID}}                   
   
 ##================================================================================================================================#  
 # Appsec Scan are mandated for All Projects and has to be included in your pipeline
