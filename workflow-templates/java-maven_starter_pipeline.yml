@@ -254,7 +254,7 @@ jobs:
 # Flag to create new namespace if not already existing
           create_namespace: false
 # Additonal helm arguments eg: --set 'dockerImage=${{env.CONTAINER_IMAGE_NAME}} and Flag to run as dry run
-          helm_argument: "--set 'image.repository=${{needs.pre-work-setup.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}'"
+          helm_argument: "--set 'image.repository=${{needs.pre-work-setup.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}:${{ github.run_number }}'"
           dry_run: false
 
 ##================================================================================================================================# 
