@@ -225,7 +225,7 @@ jobs:
 
   Helm_deployment:
     runs-on: ubuntu-latest
-    needs: Run_appsec_scans
+    needs: [ pre-work-setup, Run_appsec_scans ]
     # set the environment variable for job to use environement specific Secrets if configured.
     environment: dev
     continue-on-error: true
