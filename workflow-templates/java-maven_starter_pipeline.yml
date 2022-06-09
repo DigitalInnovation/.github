@@ -46,7 +46,7 @@ env:
   APPLICATION_NAME: java-mvnstarter
   enviornment: dev
   SONAR_CLOUD_URL: https://sonarcloud.io
-  GH_REGSITRY: ghcr.io/${{github.repository}} 
+  GH_REGISTRY: ghcr.io/${{github.repository}} 
   CONTAINER_IMAGE_NAME: java-mvnstarter-webapp-sample
   image_tag: ${{ github.run_number }}
   Chart: helm-sample-java #Update based on the helm chart folder
@@ -254,7 +254,7 @@ jobs:
 # Flag to create new namespace if not already existing
           create_namespace: false
 # Additonal helm arguments eg: --set 'dockerImage=${{env.CONTAINER_IMAGE_NAME}} and Flag to run as dry run
-          helm_argument: "--set 'image.repository=${{env.CONTAINER_IMAGE_NAME}}'"
+          helm_argument: "--set 'image.repository=${{needs.pre-work-setup.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}'"
           dry_run: false
 
 ##================================================================================================================================# 
