@@ -9,7 +9,8 @@ on:
         required: true
         options: 
         - Node
-        - Java
+        - Java-maven
+        - Java-gradle
         default: 'Node'
       
       INCLUDE_SAMPLE_SRC:
@@ -52,7 +53,7 @@ jobs:
           token: ${{ secrets.DEVSECOPS_STARTER_INIT_PAT }} 
           ref: refs/heads/main
           path: devsecops-starter
-        if: ${{ env.STACK == 'Java' }}
+        if: ${{ env.STACK == 'Java-maven' || env.STACK == 'Java-gradle' }}
         
       - name: Checkout Node starter repo
         uses: actions/checkout@v2
@@ -64,7 +65,7 @@ jobs:
         if: ${{env.STACK == 'Node' }}
 
 ######   ADD NECESSARY PIPELINE CONTENT  #######
-      - name: Add necessary JAVA STARTER PIPELINE Workflows
+      - name: Add necessary JAVA-MAVEN STARTER PIPELINE Workflows
         run: |
           STARTER_REPO_PATH="$GITHUB_WORKSPACE/devsecops-starter"
           STARTER_REPO_WORKFLOW_PATH="${STARTER_REPO_PATH}/.github"
@@ -73,7 +74,18 @@ jobs:
           mkdir -p ${REPO_PATH}/.github/workflows
           cp -rf ${STARTER_REPO_WORKFLOW_PATH}/workflows/java-maven_starter_pipeline.yml ${REPO_PATH}/.github/workflows/java-maven_starter_pipeline.yml
           cp -rf ${STARTER_REPO_WORKFLOW_PATH}/workflows/pipeline_insights.yml ${REPO_PATH}/.github/workflows/pipeline_insights.yml
-        if: ${{env.STACK == 'Java' }}
+        if: ${{env.STACK == 'Java-maven' }}
+        
+      - name: Add necessary JAVA-GRADLE STARTER PIPELINE Workflows
+        run: |
+          STARTER_REPO_PATH="$GITHUB_WORKSPACE/devsecops-starter"
+          STARTER_REPO_WORKFLOW_PATH="${STARTER_REPO_PATH}/.github"
+          REPO_PATH=$GITHUB_WORKSPACE
+          
+          mkdir -p ${REPO_PATH}/.github/workflows
+          cp -rf ${STARTER_REPO_WORKFLOW_PATH}/workflows/java-gradle_starter_pipeline.yml ${REPO_PATH}/.github/workflows/java-gradle_starter_pipeline.yml
+          cp -rf ${STARTER_REPO_WORKFLOW_PATH}/workflows/pipeline_insights.yml ${REPO_PATH}/.github/workflows/pipeline_insights.yml
+        if: ${{env.STACK == 'Java-gradle' }}  
         
       - name: Add necessary NODE STARTER PIPELINE Workflows 
         run: |
@@ -86,13 +98,23 @@ jobs:
         if: ${{ env.STACK == 'Node' }}
 
 ######   ADD SAMPLE CONTENT  #######
-      - name: Add optional JAVA Sample Source Content 
+      - name: Add optional JAVA-MAVEN Sample Source Content 
         run: |
           STARTER_REPO_PATH="$GITHUB_WORKSPACE/devsecops-starter"
           STARTER_REPO_WORKFLOW_PATH="${STARTER_REPO_PATH}/.github"
           REPO_PATH=$GITHUB_WORKSPACE
           cp -rf ${STARTER_REPO_WORKFLOW_PATH}/java-maven-sample/* ${REPO_PATH}
-        if: ${{env.SRC_FLAG == 'true' && env.STACK == 'Java'}}
+        if: ${{env.SRC_FLAG == 'true' && env.STACK == 'Java-maven'}}
+        
+        
+      - name: Add optional JAVA-GRADLE Sample Source Content 
+        run: |
+          STARTER_REPO_PATH="$GITHUB_WORKSPACE/devsecops-starter"
+          STARTER_REPO_WORKFLOW_PATH="${STARTER_REPO_PATH}/.github"
+          REPO_PATH=$GITHUB_WORKSPACE
+          cp -rf ${STARTER_REPO_WORKFLOW_PATH}/java-gradle-sample/* ${REPO_PATH}
+        if: ${{env.SRC_FLAG == 'true' && env.STACK == 'Java-gradle'}}
+        
         
       - name: Add optional Node Sample Source Content 
         run: |
