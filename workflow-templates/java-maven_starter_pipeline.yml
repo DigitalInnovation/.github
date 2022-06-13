@@ -1,5 +1,4 @@
-name: Starter Pipeline for Maven Project using Github registry/ACR as Artifact and/or Image Repository
-
+name: Starter Pipeline for Java Maven Project using Github Packages
 on:
   workflow_dispatch:
   #push:
