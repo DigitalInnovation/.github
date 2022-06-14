@@ -95,13 +95,37 @@ jobs:
         build_phases: install pack
         run_code_quality_analysis: false
 
-# upload the package created for testing purpose comment this if not needed
-    - name: 'Upload the package to build'
-      uses: actions/upload-artifact@v2
-      with:
-        name: devsecops-sample-app-${{github.sha }}.tgz
-        path: |
-          ./digitalinnovation-*.tgz     
+# Flag to include Creation of Container Image and Push to Registry       
+        build_and_push_container_image: false  # does the build create docker image and push to registry
+        
+# Ignore all  parametes with cr_* if build_and_push_container_image is false [ you can also invoke this seperately]
+# Provide the Dockerfile name and its relative path to build the image
+        cr_dockerfile_name: Dockerfile 
+        cr_dockerfile_path: ./ 
+        
+# Provide the information of the Projects ImageName, Imagetag, 
+# Container Registry to push (ACR/githubcontainer registry(GCR)) and the UserName, Password to connect to the Registry you can setup secrets to reference here
+# ${{ secrets.REGISTRY_SERVER }}  ${{ secrets.REGISTRY_USER }} ${{ secrets.REGISTRY_PASSWORD }} 
+        
+        cr_servername: ${{needs.pre-work-setup.outputs.GH_REGISTRY_SERVER_LOWERCASE}}   #reference from output of job: Pre-Work
+        cr_username: ${{secrets.SAML_GITHUB_USER }} 
+        cr_password: ${{secrets.SAML_GITHUB_TOKEN}}
+        cr_imagename: ${{env.CONTAINER_IMAGE_NAME}} 
+        cr_imagetag: ${{github.run_number }} 
+        
+# update the tenant ID if you are using ACR 
+        cr_tenant: ${{secrets.ACR_TENANT}}  
+        cr_subscription: ${{secrets.SUBSCRIPTION_ID}}    
+        
+
+
+# # upload the package created for testing purpose comment this if not needed
+#     - name: 'Upload the package to build'
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: devsecops-sample-app-${{github.sha }}.tgz
+#         path: |
+#           ./digitalinnovation-*.tgz     
 
 
 # ##================================================================================================================================#  
@@ -239,9 +263,9 @@ jobs:
         subscription: ${{secrets.SUBSCRIPTION_ID}}
         azure_tenant_id: ${{env.SP_TENANT_ID}}
         
-    - uses: actions/download-artifact@v3
-      with:
-       name: devsecops-sample-app-${{github.sha }}.tgz
+#     - uses: actions/download-artifact@v3
+#       with:
+#        name: devsecops-sample-app-${{github.sha }}.tgz
 
 ##================================================================================================================================# 
           
