@@ -134,6 +134,7 @@ jobs:
   Code_Quality_Scan:
     runs-on: ubuntu-latest #need to use self hosted runner for sonarqube.
     needs: Build_Test_and_Deploy_Package
+    continue-on-error: true
     steps:
     - name: ============ Checkout the repository Code ========== same as git-repo (get)
       uses: actions/checkout@v2
