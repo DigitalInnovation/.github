@@ -142,6 +142,9 @@ jobs:
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality@latest
       with:
 # Provide the Sonar URL, Project name or ProjectKey and the Sonar token to connect.
+        build_tool: npm
+        build_file_name: package.json
+        build_file_path: .
         cq_host_url: ${{env.SONAR_CLOUD_URL }}
         cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }}
         cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
