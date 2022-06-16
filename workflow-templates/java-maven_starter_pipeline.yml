@@ -34,9 +34,9 @@ on:
 
 # Secretes for setting up New relic Deployment Marker and Insights
 # The starter script uses the secrect under environment : Nonprod.
-# NEWRELIC_API_KEY
-# NEWRELIC_ACCOUNT_ID
-# NEWRELIC_APP_ID
+# NEW_RELIC_API_KEY
+# NEW_RELIC_ACCOUNT_ID
+# NEW_RELIC_APP_ID
 
 
 # set GLOBAL environment variable to be used in the workflow and reference using ${{env.name_declared}}
@@ -278,9 +278,9 @@ jobs:
       with: 
         set_newRelic_Deployment_marker: true
  # provide Newrelic API Key,Account ID,Application ID and Newrelic user should be created as GitHub Secret
-        newRelic_key: ${{secrets.NEWRELIC_API_KEY}} 
-        newRelic_accountId: ${{secrets.NEWRELIC_ACCOUNT_ID}}
-        newRelic_applicationId: ${{secrets.NEWRELIC_APP_ID}}
+        newRelic_key: ${{secrets.NEW_RELIC_API_KEY}} 
+        newRelic_accountId: ${{secrets.NEW_RELIC_ACCOUNT_ID}}
+        newRelic_applicationId: ${{secrets.NEW_RELIC_APP_ID}}
         newRelic_user: ${{ github.actor }}
         git_commit_id: ${{ github.sha }}
         comment: " comments "  
