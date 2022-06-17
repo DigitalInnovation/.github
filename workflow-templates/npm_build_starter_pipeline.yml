@@ -195,7 +195,7 @@ jobs:
       with:
 # Set Flag to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
         application_name: ${{env.APPLICATION_NAME}}  # Name of your Application
-        run_dependency_scan: false
+        run_dependency_scan: true
         dependency_scan_token: ${{ secrets.SNYK_API_TOKEN }}
         
 # Set Flag to true if you want to run SAST (Fortify) Scan, provide Release ID,Scanner API Key and Scanner API secret should be created as secret
