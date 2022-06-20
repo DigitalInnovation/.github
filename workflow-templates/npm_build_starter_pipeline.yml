@@ -93,7 +93,7 @@ jobs:
 # artifact repository url for github packages
         artifact_repository_url: https://npm.pkg.github.com/
 # npm build phases to execute and any npm arguments that you need to execute the build. {add additional npm phase if needed - install test publish  }
-        build_phases: install pack
+        build_phases: install   # pack  publish
         run_code_quality_analysis: false
 
 # Flag to include Creation of Container Image and Push to Registry       
@@ -190,7 +190,26 @@ jobs:
     continue-on-error: true
     needs: [Pre-Work, Build_Push_Container_image ]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    
+####  Run build to get the dependencies  ####  
+    - name: ========== Build and push Build Artifacts to artifact Store ==========
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI@main
+      env: # provide Github PAT to authenticate github package registry.
+        NODE_AUTH_TOKEN: ${{secrets.SAML_GITHUB_TOKEN}} 
+      with:
+# provide the project Build tool,build file path and its relative location Build tool
+        build_tool: npm
+        application_name: devsecops-sample-app
+        build_file_path: .
+        build_file_name: package.json
+        node_version: 12
+# artifact repository url for github packages
+        artifact_repository_url: https://npm.pkg.github.com/
+# npm build phases to execute and any npm arguments that you need to execute the build. {add additional npm phase if needed - install test publish  }
+        build_phases: install
+        
+####  Run Composite actions to execute Various APP SEC scan per requirement  ####          
     - uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec@latest
       with:
 # Set Flag to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
