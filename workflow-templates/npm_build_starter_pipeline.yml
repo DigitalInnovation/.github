@@ -171,6 +171,7 @@ jobs:
 # Provide the Dockerfile name and its relative path to build the image
         cr_dockerfile_name: Dockerfile
         cr_dockerfile_path: ./
+        cr_docker_arguments: --build-arg NODE_AUTH_TOKEN=$NODE_AUTH_TOKEN
 # provide the information of the Projects ImageName, Imagetag, 
 # container Registry to push (ACR/githubcontainer registry(GCR)) and the UserName, Password to connect to the Registry
         cr_imagename:   ${{env.CONTAINER_IMAGE_NAME }}   # devsecops_node_sample
