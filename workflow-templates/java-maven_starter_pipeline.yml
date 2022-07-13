@@ -43,7 +43,7 @@ on:
 env:
   # CI CD PARAMETERS
   APPLICATION_NAME: java-mvnstarter
-  enviornment: dev
+  environment: dev
   SONAR_CLOUD_URL: https://sonarcloud.io
   GH_REGISTRY: ghcr.io/${{github.repository}} 
   CONTAINER_IMAGE_NAME: java-mvnstarter-webapp-sample
@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       GH_REGISTRY_SERVER_LOWERCASE: ${{ steps.get_gh_registry.outputs.GH_REGISTRY_LOWER }}
-      output2: ${{ steps.step2.outputs.test }}
+      
     steps:
       - name: == pre initialization and setting up Variables ======
         id: get_gh_registry
@@ -109,7 +109,7 @@ jobs:
 # Flag to include Creation of Container Image and Push to Registry       
         build_and_push_container_image: true  # does the build create docker image and push to registry
         
-# Ignore all  parametes with cr_* if build_and_push_container_image is false [ you can also invoke this seperately]
+# Ignore all  parametes with cr_* if build_and_push_container_image is false [ you can also invoke this separately]
 # Provide the Dockerfile name and its relative path to build the image
         cr_dockerfile_name: Dockerfile 
         cr_dockerfile_path: ./ 
@@ -261,7 +261,7 @@ jobs:
           cluster_namespace: ${{ env.CLUSTER_NAMESPACE }}  #  sample-app
 # Flag to create new namespace if not already existing
           create_namespace: false
-# Additonal helm arguments eg: --set 'dockerImage=${{env.CONTAINER_IMAGE_NAME}} and Flag to run as dry run
+# Additional helm arguments eg: --set 'dockerImage=${{env.CONTAINER_IMAGE_NAME}} and Flag to run as dry run
           helm_argument: "--set 'image.repository=${{needs.pre-work-setup.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}:${{ github.run_number }}'"
           dry_run: false
 
