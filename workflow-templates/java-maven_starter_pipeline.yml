@@ -1,6 +1,7 @@
 name: Starter Pipeline for Java Maven Project using Github Packages
 on:
   workflow_dispatch:
+  
   push:
     branches: [ dev_1 ]
   
