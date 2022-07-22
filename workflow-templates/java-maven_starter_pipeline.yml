@@ -144,6 +144,21 @@ jobs:
         password: ${{secrets.SAML_GITHUB_TOKEN}}
         login-server: ${{needs.pre-work-setup.outputs.GH_REGISTRY_SERVER_LOWERCASE}}  
         
+    - name: pull image from registry server
+      run: |
+         echo docker pull ${{needs.pre-work-setup.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}:${{ github.run_number }}
+         docker pull ${{needs.pre-work-setup.outputs.GH_REGISTRY_SERVER_LOWERCASE}}/${{env.CONTAINER_IMAGE_NAME}}:${{ github.run_number }}
+      shell: bash
+    
+    - name: Prisma Cloud image scan
+      id: scan
+      uses: PaloAltoNetworks/prisma-cloud-scan@v1
+      with:
+        pcc_console_url: https://europe-west3.cloud.twistlock.com/eu-2-143543845
+        pcc_user: f5c5cd38-9fe9-4598-87cb-996363b203c9
+        pcc_pass: mhyJSs7e6s7/14uJ5CMxeeD3RpA=
+        image_name: ${{env.CONTAINER_IMAGE_NAME}}:${{ github.run_number }}
+    
 ##================================================================================================================================#  
 # Code Quality Scan Action - SonarCloud is the Recommended Tool        
   
