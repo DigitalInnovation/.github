@@ -1,8 +1,8 @@
 name: Starter Pipeline for Java Maven Project using Github Packages
 on:
   workflow_dispatch:
-  #push:
-    #branches: [ main ]
+  push:
+    branches: [ dev_1 ]
   
 ######  Please Make sure you have the secrets setup in ################
 
@@ -142,7 +142,7 @@ jobs:
     - name: ========== Run Code Quality Scan ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality@latest
       with:
-      # Provide the Sonar URL, Project name or ProjectKey and the Sonar token to connect.
+# Provide the Sonar URL, Project name or ProjectKey and the Sonar token to connect.
         build_tool: maven
         build_file_name: pom.xml
         build_file_path: .
