@@ -2,8 +2,8 @@ name: Starter Pipeline for Java Maven Project using Github Packages
 on:
   workflow_dispatch:
 
-  push:
-    branches: [ dev_1 ]
+  # push:
+  #   branches: [ dev_1 ]
   
 ######  Please Make sure you have the secrets setup in ################
 
