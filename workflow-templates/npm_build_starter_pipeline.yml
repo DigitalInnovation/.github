@@ -87,15 +87,26 @@ jobs:
 # provide the project Build tool,build file path and its relative location Build tool
         build_tool: npm
         application_name: devsecops-sample-app
-        build_file_path: .
         build_file_name: package.json
-        node_version: 12
+        build_file_path: .
+# npm build phases to execute and any npm arguments that you need to execute the build. {add additional npm phase if needed - install test publish  }
+        build_phases: install  pack  publish       
 # artifact repository url for github packages
         artifact_repository_url: https://npm.pkg.github.com/
-# npm build phases to execute and any npm arguments that you need to execute the build. {add additional npm phase if needed - install test publish  }
-        build_phases: install   # pack  publish
+        build_arguments: -PprojectVersion=2.0
+        node_version: 12
+        
+# Flag to include Code Quality Scan 
         run_code_quality_analysis: false
-
+        
+# Ignore next 5 parameters (with cq_*) if run_code_quality_analysis is false
+# If the fag is true, Provide the Sonar URL, Project name or ProjectKey and the Sonar token to connect.
+        cq_host_url:  ${{env.SONAR_CLOUD_URL }}
+        cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }}
+        cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
+        cq_token: ${{ secrets.SONAR_TOKEN }}
+        cq_scan_arguments: -Dsonar.organization=digitalinnovation 
+        
 # Flag to include Creation of Container Image and Push to Registry       
         build_and_push_container_image: false  # does the build create docker image and push to registry
         
@@ -127,8 +138,6 @@ jobs:
 #         name: devsecops-sample-app-${{github.sha }}.tgz
 #         path: |
 #           ./digitalinnovation-*.tgz     
-
-
 # ##================================================================================================================================#  
 # Code Quality Scan Action - SonarCloud is the Recomended Tool
 
