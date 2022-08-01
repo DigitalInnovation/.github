@@ -139,7 +139,17 @@ jobs:
     steps:
     - name: ============ Checkout the repository Code ========== same as git-repo (get)
       uses: actions/checkout@v2
-     
+      
+    - name: ========== Build  Artifacts for Code Scan ==========
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI@main
+      with:
+        build_tool: npm
+        application_name: devsecops-sample-app
+        build_file_path: .
+        build_file_name: package.json
+        node_version: 12
+        build_phases: install
+        
     - name: ========== call custom action to execute CodeQuality Scan ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/codequality@latest
       with:
