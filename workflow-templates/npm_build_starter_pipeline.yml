@@ -233,25 +233,19 @@ jobs:
     - uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec@latest
       with:
 # Set Flag to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
-        application_name: ${{env.APPLICATION_NAME}}  # Name of your Application
         run_dependency_scan: true
+        application_name: ${{env.APPLICATION_NAME}}  # Name of your Application
         dependency_scan_token: ${{ secrets.SNYK_API_TOKEN }}
         build_tool: npm
+        #dependency_scan_arguments:
         
-# Set Flag to true if you want to run SAST (Fortify) Scan, provide Release ID,Scanner API Key and Scanner API secret should be created as secret
-        run_sast_scan: false
-        sast_release_id: ${{ secrets.FORTIFY_RELEASE_ID }}
-        sast_api_key: ${{ secrets.FORTIFY_CLIENT_ID}}
-        sast_api_secret: ${{ secrets.FORTIFY_CLIENT_SECRET}}
-        # flag download the sast scan result, if run_sast_scan: true
-        download_sast_scan_result: false
-        
+       
 # Set Flag to true if you want to run Container (PRISMA) Scan,provide  Scanner Console URL,Access Key ID and Secret Key should be created as GitHub secret
         run_container_scan: true
         container_scan_url: ${{env.PRISMA_URL}}
         container_scan_user: ${{secrets.PRISMA_ACCESS_KEY_ID}}
         container_scan_password: ${{ secrets.PRISMA_SECRET_KEY }}
-        
+        #container_scan_arguments:
 # Provide image name,tag, to be pulled in ACR. Example: nginx, 
         image_name:  ${{env.CONTAINER_IMAGE_NAME}}   
                #devsecops_node_sample
@@ -260,7 +254,17 @@ jobs:
         registry_server: ${{needs.Pre-Work.outputs.GH_REGISTRY_SERVER_LOWERCASE}}   # reference from output of job: Pre-Work
         registry_username: ${{ secrets.SAML_GITHUB_USER }}
         registry_password: ${{ secrets.SAML_GITHUb_TOKEN }}
-  
+ 
+ 
+ # Set Flag to true if you want to run SAST (Fortify) Scan, provide Release ID,Scanner API Key and Scanner API secret should be created as secret
+        run_sast_scan: false
+        sast_release_id: ${{ secrets.FORTIFY_RELEASE_ID }}
+        sast_api_key: ${{ secrets.FORTIFY_CLIENT_ID}}
+        sast_api_secret: ${{ secrets.FORTIFY_CLIENT_SECRET}}
+        # flag download the sast scan result, if run_sast_scan: true
+        #sast_scan_arguments:
+        download_sast_scan_result: false
+ 
 ##================================================================================================================================# 
 ####   Sample Webapp Deployment require the webapp name, and the publish profile along with the path to the pacage or source path.       
             
