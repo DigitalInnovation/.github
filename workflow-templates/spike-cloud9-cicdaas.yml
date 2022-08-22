@@ -57,10 +57,8 @@ jobs:
           mkdir -p ${REPO_PATH}/.github/workflows
           mkdir -p ${REPO_PATH}/cicdaas
           cp -rf ${STARTER_REPO_CICDAAS_PATH}/template_cicdaas_config.json ${REPO_PATH}/cicdaas/template_cicdaas_config.json
-          pwd
-          ls $REPO_PATH
           cp -rf ${STARTER_REPO_CICDAAS_PATH}/template_invoke_cicdaas.yaml ${REPO_PATH}/.github/workflows/template_invoke_cicdaas.yaml
-        if: ${{env.STACK == 'Java-maven' }}
+
 
         
 ######   CLEAN UP POST PROCESSS and CREATE PULL REQUEST #######          
