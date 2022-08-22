@@ -1,0 +1,78 @@
+#This is an initialization workflow for copying Node starter workflow and sample app (if required)
+name: cloud9-cicdaas-spike
+on: 
+  workflow_dispatch:
+    inputs:
+      STACK_NAME:
+        type: choice
+        description: 'Type in Java or Node'     
+        required: true
+        options: 
+        - Node
+        - Java-maven
+        - Java-gradle
+        default: 'Node'
+      
+
+jobs:
+  bootstrap-repository:
+    runs-on: ubuntu-latest
+    name: devsecops-init
+    env:
+      SAML_GITHUB_TOKEN: ${{ secrets.DEVSECOPS_STARTER_INIT_PAT }}
+      GITHUB_WORKSPACE: ${{ github.workspace }}
+      GITHUB_REPOSITORY: ${{ github.repository }}
+      APP_NAME: ${{ github.event.inputs.APP_NAME }}
+      STACK: ${{ github.event.inputs.STACK_NAME }}
+      SRC_FLAG: ${{github.event.inputs.INCLUDE_SAMPLE_SRC }}
+    permissions:
+      contents: write
+      pull-requests: write 
+  
+    steps:
+      - name: Pre-check
+        run: |
+          echo inputs are ${{  github.event.inputs.STACK_NAME }} ${{ github.event.inputs.INCLUDE_SAMPLE_SRC }}
+     
+######   Checkout CI/CDaaS repo  #######    
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        
+      - name: Checkout Java starter repo
+        uses: actions/checkout@v3
+        with:
+          repository: DigitalInnovation/Cloud-DevSecOps
+          token: ${{ secrets.DEVSECOPS_STARTER_INIT_PAT }} 
+          ref: refs/heads/main
+          path: cicdaas
+
+
+######   ADD NECESSARY PIPELINE CONTENT  #######
+      - name: Add necessary JAVA-MAVEN STARTER PIPELINE Workflows
+        run: |
+          STARTER_REPO_PATH="$GITHUB_WORKSPACE/cicdaas"
+          STARTER_REPO_CICDAAS_PATH="${STARTER_REPO_PATH}/cicdaas"
+          REPO_PATH=$GITHUB_WORKSPACE
+          
+          mkdir -p ${REPO_PATH}/.github/workflows
+          mkdir -p ${REPO_PATH}/cicdaas
+          cp -rf ${STARTER_REPO_WORKFLOW_PATH}/template_cicdaas_config.json ${REPO_PATH}/cicdaas/template_cicdaas_config.json
+          cp -rf ${STARTER_REPO_WORKFLOW_PATH}/template_invike_cicdaas.yaml ${REPO_PATH}/.github/workflows/template_invike_cicdaas.yaml
+        if: ${{env.STACK == 'Java-maven' }}
+
+        
+######   CLEAN UP POST PROCESSS and CREATE PULL REQUEST #######          
+      - name: remove the Starter Repo Local Clone
+        run: |
+          rm -rf ${{ github.workspace }}/cicdaas
+                    
+      - name: Create Pull Request to add Starter Pipeline and sample source to build.
+        uses: peter-evans/create-pull-request@v4
+        with: 
+          token: ${{secrets.DEVSECOPS_STARTER_INIT_PAT}} 
+          branch: devsecops-bootstrap
+          branch-suffix: random
+          commit-message: "feat: bootstrapping repo run ${{ github.run_id }}"
+          title: "automated-devsecops-repo-bootstrap-runid-${{ github.run_id }}"
+          labels: |
+            devsecops-init-starter-piepline-src
