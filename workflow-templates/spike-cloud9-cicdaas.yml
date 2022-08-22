@@ -44,27 +44,29 @@ jobs:
           repository: DigitalInnovation/Cloud-DevSecOps
           token: ${{ secrets.DEVSECOPS_STARTER_INIT_PAT }} 
           ref: refs/heads/main
-          path: cicdaas
+          path: cicdaas_repo
 
 
 ######   ADD NECESSARY PIPELINE CONTENT  #######
       - name: Add necessary JAVA-MAVEN STARTER PIPELINE Workflows
         run: |
-          STARTER_REPO_PATH="$GITHUB_WORKSPACE/cicdaas"
+          STARTER_REPO_PATH="$GITHUB_WORKSPACE/cicdaas_repo"
           STARTER_REPO_CICDAAS_PATH="${STARTER_REPO_PATH}/cicdaas"
           REPO_PATH=$GITHUB_WORKSPACE
-          
+      
           mkdir -p ${REPO_PATH}/.github/workflows
           mkdir -p ${REPO_PATH}/cicdaas
-          cp -rf ${STARTER_REPO_WORKFLOW_PATH}/template_cicdaas_config.json ${REPO_PATH}/cicdaas/template_cicdaas_config.json
-          cp -rf ${STARTER_REPO_WORKFLOW_PATH}/template_invike_cicdaas.yaml ${REPO_PATH}/.github/workflows/template_invike_cicdaas.yaml
+          cp -rf ${STARTER_REPO_CICDAAS_PATH}/template_cicdaas_config.json ${REPO_PATH}/cicdaas/template_cicdaas_config.json
+          pwd
+          ls $REPO_PATH
+          cp -rf ${STARTER_REPO_CICDAAS_PATH}/template_invoke_cicdaas.yaml ${REPO_PATH}/.github/workflows/template_invoke_cicdaas.yaml
         if: ${{env.STACK == 'Java-maven' }}
 
         
 ######   CLEAN UP POST PROCESSS and CREATE PULL REQUEST #######          
       - name: remove the Starter Repo Local Clone
         run: |
-          rm -rf ${{ github.workspace }}/cicdaas
+          rm -rf ${{ github.workspace }}/cicdaas_repo
                     
       - name: Create Pull Request to add Starter Pipeline and sample source to build.
         uses: peter-evans/create-pull-request@v4
