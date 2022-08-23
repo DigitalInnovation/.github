@@ -57,8 +57,17 @@ jobs:
           mkdir -p ${REPO_PATH}/.github/workflows
           mkdir -p ${REPO_PATH}/cicdaas
           cp -rf ${STARTER_REPO_CICDAAS_PATH}/template_cicdaas_config.json ${REPO_PATH}/cicdaas/template_cicdaas_config.json
+          pwd
+          current_repo=`echo $GITHUB_REPOSITORY | cut -f2 -d"/"`
           cp -rf ${STARTER_REPO_CICDAAS_PATH}/template_invoke_cicdaas.yaml ${REPO_PATH}/.github/workflows/template_invoke_cicdaas.yaml
-
+          file_location=`echo ${REPO_PATH}/.github/workflows/template_invoke_cicdaas.yaml`
+          sed -i "s/pull_request_/pull_request_$current_repo/g" "$file_location"
+        if: ${{env.STACK == 'Java-maven' }}
+        
+      - name: trigger event for pull request
+        run: |
+          curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token ${{secrets.DEVSECOPS_STARTER_INIT_PAT}}" https://api.github.com/repos/DigitalInnovation/Cloud-DevSecOps/dispatches -d '{"event_type":"create_workflow","client_payload":{"repo_name": "'"$GITHUB_REPOSITORY"'"}}'
+          echo $GITHUB_REPOSITORY
 
         
 ######   CLEAN UP POST PROCESSS and CREATE PULL REQUEST #######          
