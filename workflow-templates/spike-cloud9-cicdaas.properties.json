@@ -1,6 +1,6 @@
 {
     "name": "Spike (Test workflow)",
-    "description": "Test workflow",
+    "description": "Only for testing purpose,
     "iconName": "githubactions",
     "filePatterns": [
         ".*\\.md$",
