@@ -76,6 +76,10 @@ jobs:
     runs-on: ubuntu-latest #windows-latest 
     needs: Pre-Work
     steps:
+
+    - name: npm install 
+      run:  npm install
+
     - name: ============ Checkout the repository Code ==========
       uses: actions/checkout@v2
 
