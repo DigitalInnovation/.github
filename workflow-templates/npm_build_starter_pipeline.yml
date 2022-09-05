@@ -81,7 +81,7 @@ jobs:
     - name: ============ Checkout the repository Code ==========
       uses: actions/checkout@v2
 
-    - name: Snyk install
+    - name: Snyk Scan
       run: |
 
         curl https://static.snyk.io/cli/latest/snyk-win.exe -o snyk.exe
@@ -90,10 +90,10 @@ jobs:
         snyk auth 87370147-20bf-4b9d-96ad-d7189664b956
 
         echo "----------Snyk Scanning-----------"
-        snyk test --all-projects  -d -- -Dtechcore.release.version=11.0-SNAPSHOT || true
+        snyk test --all-projects  -d  || true
 
         echo "----------Snyk Monitor-----------"
-        snyk monitor  --all-projects  -d -- -Dtechcore.release.version=11.0-SNAPSHOT || true
+        snyk monitor  --all-projects  -d || true
 
       shell: cmd
 
