@@ -82,7 +82,7 @@ jobs:
     - name: Snyk SCA Scanning
       run: |
          echo "----------Download Latest Snyk CLI-----------"          
-         curl -Lo ./snyk "https://github.com/snyk/cli/releases/download/v1.997.0/snyk-win.exe"
+         curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.760.0/snyk-linux"
          chmod +x snyk
       
          echo "----------Authenticating Snyk-----------"
