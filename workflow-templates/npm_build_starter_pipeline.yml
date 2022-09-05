@@ -73,7 +73,7 @@ jobs:
 # CI Build and Package / Image Creation  - GITHub Packages is rescommended for Storing packages
 
   Build_Test_and_Publish_Package:
-    runs-on: windows-latest #ubuntu-latest 
+    runs-on: ubuntu-latest #ubuntu-latest 
     needs: Pre-Work
     steps:
 
