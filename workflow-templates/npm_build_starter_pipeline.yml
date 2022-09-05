@@ -79,20 +79,12 @@ jobs:
     - name: ============ Checkout the repository Code ==========
       uses: actions/checkout@v2
 
-    - name: Snyk SCA Scanning
-      run: |
-         echo "----------Download Latest Snyk CLI-----------"          
-         curl -Lo ./snyk "https://github.com/snyk/snyk/releases/download/v1.760.0/snyk-linux"
-         chmod +x snyk
-      
-         echo "----------Authenticating Snyk-----------"
-         ./snyk auth 87370147-20bf-4b9d-96ad-d7189664b956
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: $87370147-20bf-4b9d-96ad-d7189664b956
 
-         echo "----------Snyk Scanning-----------"
-         ./snyk test --all-projects || true
 
-         echo "----------Snyk Monitor-----------"
-         ./snyk monitor  --all-projects || true
       
     - name: ========== Build and push Build Artifacts to artifact Store ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI@main
