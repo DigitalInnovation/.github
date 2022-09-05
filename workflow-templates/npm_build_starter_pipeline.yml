@@ -95,7 +95,7 @@ jobs:
         echo "----------Snyk Monitor-----------"
         snyk monitor  --all-projects  -d || true
 
-      shell: cmd
+      shell: bash
 
 
       
