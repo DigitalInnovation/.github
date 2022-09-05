@@ -73,20 +73,29 @@ jobs:
 # CI Build and Package / Image Creation  - GITHub Packages is rescommended for Storing packages
 
   Build_Test_and_Publish_Package:
-    runs-on: ubuntu-latest #windows-latest 
+    runs-on: windows-latest #ubuntu-latest 
     needs: Pre-Work
     steps:
 
-    - name: npm install 
-      run:  npm install
 
     - name: ============ Checkout the repository Code ==========
       uses: actions/checkout@v2
 
-    - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/node@master
-      env:
-        SNYK_TOKEN: $87370147-20bf-4b9d-96ad-d7189664b956
+    - name: Snyk install
+      run: |
+
+        curl https://static.snyk.io/cli/latest/snyk-win.exe -o snyk.exe
+      
+        echo "----------Authenticating Snyk-----------"
+        snyk auth 87370147-20bf-4b9d-96ad-d7189664b956
+
+        echo "----------Snyk Scanning-----------"
+        snyk test --all-projects  -d -- -Dtechcore.release.version=11.0-SNAPSHOT || true
+
+        echo "----------Snyk Monitor-----------"
+        snyk monitor  --all-projects  -d -- -Dtechcore.release.version=11.0-SNAPSHOT || true
+
+      shell: cmd
 
 
       
