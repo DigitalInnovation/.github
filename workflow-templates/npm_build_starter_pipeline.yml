@@ -105,7 +105,7 @@ jobs:
         build_file_name: package.json
         build_file_path: .
 # npm build phases to execute and any npm arguments that you need to execute the build. {add additional npm phase if needed - install test publish  }
-        build_phases: install  pack  publish       
+        build_phases: install  pack  # publish       
 # artifact repository url for github packages
         artifact_repository_url: https://npm.pkg.github.com/
         build_arguments: -PprojectVersion=2.0
