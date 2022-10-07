@@ -73,31 +73,11 @@ jobs:
 # CI Build and Package / Image Creation  - GITHub Packages is rescommended for Storing packages
 
   Build_Test_and_Publish_Package:
-    runs-on: ubuntu-latest #ubuntu-latest 
+    runs-on: ubuntu-latest
     needs: Pre-Work
     steps:
-
-
     - name: ============ Checkout the repository Code ==========
       uses: actions/checkout@v2
-
-    - name: Snyk Scan
-      run: |
-
-        curl https://static.snyk.io/cli/latest/snyk-win.exe -o snyk.exe
-      
-        echo "----------Authenticating Snyk-----------"
-        snyk auth 87370147-20bf-4b9d-96ad-d7189664b956
-
-        echo "----------Snyk Scanning-----------"
-        snyk test --all-projects  -d  || true
-
-        echo "----------Snyk Monitor-----------"
-        snyk monitor  --all-projects  -d || true
-
-      shell: bash
-
-
       
     - name: ========== Build and push Build Artifacts to artifact Store ==========
       uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CI@main
@@ -110,7 +90,7 @@ jobs:
         build_file_name: package.json
         build_file_path: .
 # npm build phases to execute and any npm arguments that you need to execute the build. {add additional npm phase if needed - install test publish  }
-        build_phases: install  pack  # publish       
+        build_phases: install  pack     
 # artifact repository url for github packages
         artifact_repository_url: https://npm.pkg.github.com/
         build_arguments: -PprojectVersion=2.0
@@ -253,7 +233,7 @@ jobs:
     - uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec@latest
       with:
 # Set Flag to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
-        run_dependency_scan: false
+        run_dependency_scan: true
         application_name: ${{env.APPLICATION_NAME}}  # Name of your Application
         dependency_scan_token: ${{ secrets.SNYK_API_TOKEN }}
         build_tool: npm
