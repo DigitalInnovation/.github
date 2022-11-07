@@ -66,7 +66,7 @@ jobs:
           #GH_REGISTRY_NAME_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}
           GH_REGISTRY_NAME_LOWER=ghcr.io/digitalinnovation/ra_sample_java
           #echo "::set-output name=GH_REGISTRY_LOWER::$GH_REGISTRY_NAME_LOWER"
-          echo "GH_REGISTRY_LOWER=$GH_REGISTRY_NAME_LOWER" >> GITHUB_OUTPUT
+          echo "GH_REGISTRY_LOWER=$GH_REGISTRY_NAME_LOWER" >> $GITHUB_OUTPUT
 
 ##================================================================================================================================# 
 # CI Build and Artifact / Image Creation  -  GITHub Packages is recommended for Storing packages
