@@ -58,15 +58,18 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       GH_REGISTRY_SERVER_LOWERCASE: ${{ steps.get_gh_registry.outputs.GH_REGISTRY_LOWER }}
-      
+      GH_REPO_LEAF_NAME: ${{ steps.get_gh_registry.outputs.GH_REPO_LEAF_NAME }}
     steps:
       - name: == pre initialization and setting up Variables ======
         id: get_gh_registry
         run: |
-          #GH_REGISTRY_NAME_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}
-          GH_REGISTRY_NAME_LOWER=ghcr.io/digitalinnovation/ra_sample_java
-          #echo "::set-output name=GH_REGISTRY_LOWER::$GH_REGISTRY_NAME_LOWER"
+          GH_REGISTRY_NAME_LOWER=ghcr.io/${GITHUB_REPOSITORY,,}
+          GH_REPO_LEAF_NAME=$(echo ${GITHUB_REPOSITORY,,} | sed 's/digitalinnovation\///')
+          #GH_REGISTRY_NAME_LOWER=ghcr.io/digitalinnovation/ra_sample_java  #use this hard coded value if you are using a different repo
+          #GH_REPO_LEAF_NAME=ra_sample_java #use this hard coded value if you are using a different repo
           echo "GH_REGISTRY_LOWER=$GH_REGISTRY_NAME_LOWER" >> $GITHUB_OUTPUT
+          echo "GH_REPO_LEAF_NAME=$GH_REPO_LEAF_NAME" >> $GITHUB_OUTPUT
+
 
 ##================================================================================================================================# 
 # CI Build and Artifact / Image Creation  -  GITHub Packages is recommended for Storing packages
@@ -92,7 +95,7 @@ jobs:
 # Build phases/ sctions to execute and any  arguments that you need to execute the build depending on the build tool used
 # {sample phase has been added add additional maven phase if needed }
         build_phases: clean package deploy
-        build_arguments: -Dgh_repo.pat=${{secrets.SAML_GITHUB_TOKEN}} -Dgh_repo.user=${{ secrets.SAML_GITHUB_USER }} 
+        build_arguments: -Dgh_repo.pat=${{secrets.SAML_GITHUB_TOKEN}} -Dgh_repo.user=${{ secrets.SAML_GITHUB_USER }} -DartifactID=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
         #jdk_version: 11
         
 # Flag to run Code Quality Scan (Mandatory),       
@@ -104,7 +107,7 @@ jobs:
         cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }}
         cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
         cq_token: ${{ secrets.SONAR_TOKEN }}
-        cq_scan_arguments: -Dsonar.organization=digitalinnovation 
+        cq_scan_arguments: -Dsonar.organization=digitalinnovation -DartifactID=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
 
 # Flag to include Creation of Container Image and Push to Registry       
         build_and_push_container_image: true  # does the build create docker image and push to registry
@@ -152,7 +155,7 @@ jobs:
         cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }} 
         cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
         cq_token: ${{ secrets.SONAR_TOKEN }} 
-        cq_scan_arguments: -Dsonar.organization=digitalinnovation 
+        cq_scan_arguments: -Dsonar.organization=digitalinnovation -DartifactID=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
           
         
 ##================================================================================================================================#  
