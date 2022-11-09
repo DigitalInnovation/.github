@@ -95,7 +95,7 @@ jobs:
 # Build phases/ sctions to execute and any  arguments that you need to execute the build depending on the build tool used
 # {sample phase has been added add additional maven phase if needed }
         build_phases: clean package deploy
-        build_arguments: -Dgh_repo.pat=${{secrets.SAML_GITHUB_TOKEN}} -Dgh_repo.user=${{ secrets.SAML_GITHUB_USER }} -DartifactID=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
+        build_arguments: -Dgh_repo.pat=${{secrets.SAML_GITHUB_TOKEN}} -Dgh_repo.user=${{ secrets.SAML_GITHUB_USER }} -DartifactId=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
         #jdk_version: 11
         
 # Flag to run Code Quality Scan (Mandatory),       
@@ -107,7 +107,7 @@ jobs:
         cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }}
         cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
         cq_token: ${{ secrets.SONAR_TOKEN }}
-        cq_scan_arguments: -Dsonar.organization=digitalinnovation -DartifactID=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
+        cq_scan_arguments: -Dsonar.organization=digitalinnovation -DartifactId=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
 
 # Flag to include Creation of Container Image and Push to Registry       
         build_and_push_container_image: true  # does the build create docker image and push to registry
@@ -155,7 +155,7 @@ jobs:
         cq_project_name: ${{ secrets.SONAR_PROJECT_NAME }} 
         cq_project_key: ${{ secrets.SONAR_PROJECT_KEY }} 
         cq_token: ${{ secrets.SONAR_TOKEN }} 
-        cq_scan_arguments: -Dsonar.organization=digitalinnovation -DartifactID=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
+        cq_scan_arguments: -Dsonar.organization=digitalinnovation -DartifactId=${{needs.pre-work-setup.outputs.GH_REPO_LEAF_NAME}}
           
         
 ##================================================================================================================================#  
