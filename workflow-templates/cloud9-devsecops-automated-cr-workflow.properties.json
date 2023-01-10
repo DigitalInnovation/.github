@@ -1,0 +1,8 @@
+{
+    "name": "M&S - Automated CR workflow",
+    "description": "M&S - Cloud9 DevSecOps Automated CR workflow",
+    "iconName": "githubactions",
+    "filePatterns": [
+        ".*\\.md$"              
+    ]
+}
