@@ -1,4 +1,4 @@
-{
+/* {
     "name": "Spike (Test workflow)",
     "description": "Only for testing purpose",
     "iconName": "githubactions",
@@ -8,4 +8,4 @@
 		"settings.gradle$",
         "package.json$"                
     ]
-}
+} */
