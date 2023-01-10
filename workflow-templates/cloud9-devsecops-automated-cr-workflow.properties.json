@@ -1,7 +1,7 @@
 {
     "name": "M&S - Automated CR workflow",
     "description": "M&S - Cloud9 DevSecOps Automated CR workflow",
-    "iconName": "githubactions",
+    "iconName": "BMC_Software_logo_(2014)",
     "filePatterns": [
         ".*\\.md$"              
     ]
