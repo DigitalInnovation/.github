@@ -250,9 +250,9 @@ jobs:
           # Flag to verify if this is helm deployment
           is_helm_deployment: true
  # Deployment environment name. Supported values: dev/release/prod 
-          environment: ${{env.enviornment}}
+          environment: ${{env.environment}}
             # Release name of the helm application
-          application_release_name: ${{env.APPLICATION_NAME}}-${{env.enviornment}}
+          application_release_name: ${{env.APPLICATION_NAME}}-${{env.environment}}
             # Kubeconfig for AKS cluster connection, should be created as GitHub secret
           kube_config: ${{ secrets.KUBE_CONFIG }}            
 # provide relative path,Name of the values file to use to help helm chart folder
