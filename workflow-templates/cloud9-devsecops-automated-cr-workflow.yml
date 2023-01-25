@@ -57,7 +57,7 @@ on:
         required: true
         type: string 
       risk_impact:
-        description: 'For Risk and Impact assessment agreement, please refer this link - https://confluence.marksandspencer.app'
+        description: 'For Risk and Impact assessment agreement, please refer this link - https://github.com/DigitalInnovation/cloud-devsecops-pipelineactions/blob/branch-bmc-helix-action/README.md#change-management-riskimpact-assessment-questionnaire'
         required: true
         type: choice
         options:
