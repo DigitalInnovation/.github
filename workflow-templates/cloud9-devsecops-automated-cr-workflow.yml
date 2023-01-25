@@ -57,7 +57,7 @@ on:
         required: true
         type: string 
       risk_impact:
-        description: 'For Risk and Impact assessment agreement, please refer this link - shorturl.at/jDIRT'
+        description: 'For Risk and Impact assessment agreement, please refer this link - https://tinyurl.com/2twu6t8j'
         required: true
         type: choice
         options:
