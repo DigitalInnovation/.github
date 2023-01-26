@@ -83,7 +83,7 @@ jobs:
         product_four_wall: ${{ github.event.inputs.product_four_wall }}
         business_impact: ${{ github.event.inputs.business_impact }}
         risk_impact: ${{ github.event.inputs.risk_impact }}
-        bmc_username: prabhu.mounagurusamy@mnscorp.net
+        bmc_username: GitHub.APIUser
         bmc_password: ${{ secrets.BMC_REMEDY_API_PASSWORD  }}
         helix_username: github
         helix_password: ${{ secrets.BMC_HELIX_API_PASSWORD  }}
