@@ -9,6 +9,7 @@ on:
         options:
          - Foods
          - C&H Core
+         - International
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
