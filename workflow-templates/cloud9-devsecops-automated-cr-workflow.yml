@@ -7,7 +7,7 @@ on:
         required: true
         type: choice
         options:
-         - Foods
+         - Food Supply Chain
          - C&H Core
          - International
       start_date:
@@ -24,8 +24,8 @@ on:
         type: choice
         options:
          - Transport Management System (TMS)
-         - Onyx
-         - Fesk
+         - FOA Orchestration Layer (NextGen FOA)
+         - Partner Integration 
       change_description:
         description: 'Change Description'
         required: true
