@@ -24,7 +24,7 @@ on:
         type: choice
         options:
          - Transport Management System (TMS)
-         - FOA Orchestration Layer (NextGen FOA)
+         - FOA Orchestration Layer
          - Partner Integration 
       change_description:
         description: 'Change Description'
