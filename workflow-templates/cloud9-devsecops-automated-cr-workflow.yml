@@ -25,7 +25,7 @@ on:
         options:
          - Transport Management System (TMS)
          - FOA Orchestration Layer
-         - Partner Integration 
+         - PIGW 
       change_description:
         description: 'Change Description'
         required: true
