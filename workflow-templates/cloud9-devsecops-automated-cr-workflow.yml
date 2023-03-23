@@ -1,4 +1,4 @@
-name: Change creation workflow
+name: QA - Remedy Change creation workflow
 on: 
   workflow_dispatch:
     inputs:
