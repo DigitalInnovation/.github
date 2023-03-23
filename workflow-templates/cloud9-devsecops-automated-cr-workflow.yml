@@ -1,4 +1,4 @@
-name: Automated Change workflow
+name: Change creation workflow
 on: 
   workflow_dispatch:
     inputs:
