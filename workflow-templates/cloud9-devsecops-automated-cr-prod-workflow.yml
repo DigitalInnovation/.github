@@ -1,0 +1,96 @@
+name: PROD - Remedy Change creation workflow
+on: 
+  workflow_dispatch:
+    inputs:
+      portfolio:
+        description: 'Change Initiated Portfolio'
+        required: true
+        type: choice
+        options:
+         - Foods
+         - C&H Core
+         - International
+      start_date:
+        description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
+        required: true
+        type: string
+      end_date:
+        description: 'Change Implementation End Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
+        required: true
+        type: string
+      app_name:
+        description: 'Application Name'
+        required: true
+        type: choice
+        options:
+         - Transport Management System (TMS)
+         - FOA Orchestration Layer
+         - PIGW 
+      change_description:
+        description: 'Change Description'
+        required: true
+        type: string
+      change_category:
+        description: 'Change Category'
+        required: true
+        type: choice
+        options:
+         - Application
+         - Infrastructure
+      outage_required:
+        description: 'Outage Required?'
+        required: true
+        default: 'No'
+        type: choice
+        options:
+         - 'Yes'
+         - 'No'
+      product_four_wall:
+        description: 'Product 4 Wall Change?'
+        required: true
+        default: 'Yes'
+        type: choice
+        options:
+         - 'Yes'
+         - 'No'  
+      business_impact:
+        description: 'Business Impact'
+        required: true
+        type: string 
+      risk_impact:
+        description: 'For Risk and Impact assessment agreement, please refer this link - https://digitalinnovation.github.io/cloud-devsecops-pipelineactions/change-management-r&i.html'
+        required: true
+        type: choice
+        options:
+         - 'Yes'
+         - 'No'        
+        
+  
+jobs:
+  Conflict_Check_and_Create_CR:
+    runs-on: ubuntu-latest
+    steps:      
+    - name: Call BMC Endpoints and get response
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/bmc-helix-cr-prod@latest
+      with: 
+        action: "create"
+        portfolio: ${{ github.event.inputs.portfolio }}
+        start_date: ${{ github.event.inputs.start_date }}
+        end_date: ${{ github.event.inputs.end_date }}
+        app_name:  ${{ github.event.inputs.app_name }}
+        change_description: ${{ github.event.inputs.change_description }}
+        change_category: ${{ github.event.inputs.change_category }}
+        outage_required: ${{ github.event.inputs.outage_required }}
+        product_four_wall: ${{ github.event.inputs.product_four_wall }}
+        business_impact: ${{ github.event.inputs.business_impact }}
+        risk_impact: ${{ github.event.inputs.risk_impact }}
+        bmc_username: GitHub.APIUser
+        bmc_password: ${{ secrets.PROD_BMC_REMEDY_API_PASSWORD  }}
+        helix_username: github
+        helix_password: ${{ secrets.PROD_BMC_HELIX_API_PASSWORD  }}
+        
+  
+        
+      
+       
+       
