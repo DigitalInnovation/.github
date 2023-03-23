@@ -58,7 +58,7 @@ on:
         required: true
         type: string 
       risk_impact:
-        description: 'For Risk and Impact assessment agreement, please refer this link - https://github.com/DigitalInnovation/cloud-devsecops-pipelineactions/blob/branch-bmc-helix-action/README.md#change-management-riskimpact-assessment-questionnaire'
+        description: 'For Risk and Impact assessment agreement, please refer this link - https://digitalinnovation.github.io/cloud-devsecops-pipelineactions/change-management-r&i.html'
         required: true
         type: choice
         options:
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:      
     - name: Call BMC Endpoints and get response
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/bmc-helix-cr@branch-bmc-helix-action
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/bmc-helix-cr-qa@latest
       with: 
         action: "create"
         portfolio: ${{ github.event.inputs.portfolio }}
