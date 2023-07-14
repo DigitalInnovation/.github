@@ -18,14 +18,6 @@ on:
         description: 'Change Implementation End Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
         type: string
-      outage_startdate:
-        description: 'outage_startdate (YYYY-MM-DDTHH:MM:SS).Provide  date'
-        required: true
-        type: string
-      outage_enddate:
-        description: 'outage_enddate (YYYY-MM-DDTHH:MM:SS).Provide  date'
-        required: true
-        type: string
       app_name:
         description: 'Application Name'
         required: true
@@ -85,8 +77,6 @@ jobs:
         portfolio: ${{ github.event.inputs.portfolio }}
         start_date: ${{ github.event.inputs.start_date }}
         end_date: ${{ github.event.inputs.end_date }}
-        outage_startdate: ${{ github.event.inputs.outage_startdate }}
-        outage_enddate: ${{ github.event.inputs.outage_enddate }}
         app_name:  ${{ github.event.inputs.app_name }}
         change_description: ${{ github.event.inputs.change_description }}
         change_category: ${{ github.event.inputs.change_category }}
