@@ -10,6 +10,7 @@ on:
          - Foods
          - C&H Core
          - International
+         - Retail
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
@@ -26,6 +27,7 @@ on:
          - Transport Management System (TMS)
          - FOA Orchestration Layer
          - PIGW 
+         - Pay With Me
       change_description:
         description: 'Change Description'
         required: true
