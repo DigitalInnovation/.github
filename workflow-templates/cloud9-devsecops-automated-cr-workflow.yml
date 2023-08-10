@@ -26,7 +26,7 @@ on:
         options:
          - Transport Management System (TMS)
          - FOA Orchestration Layer
-         - PIGW 
+         - Partner Integration 
          - Pay With Me
       change_description:
         description: 'Change Description'
