@@ -11,7 +11,7 @@ on:
          - C&H Core
          - International
          - Retail  
-         - Enterprise Technology Platforms
+         - Platform Services(On-prem/Cloud)
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
