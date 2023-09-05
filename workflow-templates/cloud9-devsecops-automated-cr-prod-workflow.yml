@@ -10,7 +10,8 @@ on:
          - Foods
          - C&H Core
          - International
-         - Retail         
+         - Retail  
+         - Enterprise Technology Platforms
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
@@ -28,6 +29,7 @@ on:
          - FOA Orchestration Layer
          - Partner Integration 
          - Pay With Me
+         - BMC Remedy Service Management (Remedy)
       change_description:
         description: 'Change Description'
         required: true
