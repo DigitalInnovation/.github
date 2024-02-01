@@ -11,6 +11,7 @@ on:
          - C&H Core
          - International
          - Retail
+         - Selling Experience
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
@@ -28,6 +29,7 @@ on:
          - FOA Orchestration Layer
          - Partner Integration 
          - Pay With Me
+         - Product Services
       change_description:
         description: 'Change Description'
         required: true

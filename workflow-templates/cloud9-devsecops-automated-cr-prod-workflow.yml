@@ -12,6 +12,7 @@ on:
          - International
          - Retail  
          - Platform Services(On-prem/Cloud)
+         - Selling Experience
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
@@ -30,6 +31,7 @@ on:
          - Partner Integration 
          - Pay With Me
          - BMC Remedy Service Management (Remedy)
+         - Product Services
       change_description:
         description: 'Change Description'
         required: true
