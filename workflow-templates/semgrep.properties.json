@@ -1,5 +1,5 @@
 {
     "name": "M&S-Semgrep- SAST Tool",
-    "description": "Semgrep Code is a SAST tool that helps identify and prevent potential security vulnerabilities in software code.",
+    "description": "Semgrep helps identify and prevent potential security vulnerabilities in software code.",
     "iconName": "semgrep",
 }
