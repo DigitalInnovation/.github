@@ -1,5 +1,5 @@
 {
-    "name": "M&S-Semgrep SAST Workflow",
+    "name": "M&S - Semgrep SAST Workflow (Security)",
     "description": "Semgrep helps identify and prevent potential security vulnerabilities in custom-written software code.",
     "iconName": "semgrep",
      "filePatterns": [
