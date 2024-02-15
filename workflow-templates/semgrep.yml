@@ -9,10 +9,12 @@ jobs:
   call-semgrep:
     uses: DigitalInnovation/semgrep-appsec-workflow/.github/workflows/semgrep_webapps.yml@v1.2.1 
     #with:
-      #fail-on: HIGH
+      #fail-on: '<Value is either HIGH, MEDIUM or LOW to fail the build on having vulnerabilities with these severitites(Optional Parameter)>'
       #include-patterns: '<Patterns to include in scanning. Supply as comma-separated values(Optional Parameter)>'
       #exclude-patterns: '<Patterns to exclude from scanning. Supply as comma-separated values(Optional Parameter)>'  
     secrets:
       SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
 
    #DigitalInnovation/semgrep-appsec-workflow/.github/workflows/mobileapps.yml@v1.2.1 can be used for mobile-apps
+   
+   #Please visit https://devopssec.engineering.mnscorp.net/Products/Semgrep-Code/getting-started/ for more details on Semgrep.
