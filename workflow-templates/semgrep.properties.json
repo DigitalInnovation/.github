@@ -1,5 +1,11 @@
 {
     "name": "M&S-Semgrep-SAST Tool",
-    "description": "Semgrep helps identify and prevent potential security vulnerabilities in custom written software code.",
+    "description": "Semgrep helps identify and prevent potential security vulnerabilities in custom-written software code.",
     "iconName": "semgrep",
+     "filePatterns": [
+        ".*\\.md$",
+        "pom.xml$",
+		"settings.gradle$",
+        "package.json$"                
+    ]
 }
