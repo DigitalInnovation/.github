@@ -203,12 +203,12 @@ jobs:
        
     - uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/appsec@latest
       with:
-# Set Falg to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
+# Set Flag to true if you want to run Dependency (SNYK) Scan,provide Name of the project Example: Test and Token should be created as GitHub secret
         application_name: ${{env.APPLICATION_NAME}}  # Name of your Application
         run_dependency_scan: true
         dependency_scan_token: ${{ secrets.SNYK_API_TOKEN }}
         
-# Set Falg to true if you want to run SAST (Fortify) Scan, provide Release ID,Scanner API Key and Scanner API secret should be created as secret
+# Set Flag to true if you want to run SAST (Fortify) Scan, provide Release ID,Scanner API Key and Scanner API secret should be created as secret
         run_sast_scan: false
         sast_release_id: ${{ secrets.FORTIFY_RELEASE_ID }}
         sast_api_key: ${{ secrets.FORTIFY_CLIENT_ID}}
@@ -216,7 +216,7 @@ jobs:
         # flag download the sast scan result, if run_sast_scan: true
         download_sast_scan_result: false
         
-# Set Falg to true if you want to run Container (PRISMA) Scan,provide  Scanner Console URL,username and password should be created as GitHub secret
+# Set Flag to true if you want to run Container (PRISMA) Scan,provide  Scanner Console URL,username and password should be created as GitHub secret
         run_container_scan: true
         container_scan_url: ${{ env.PRISMA_URL }}
         container_scan_user: ${{ secrets.PRISMA_ACCESS_KEY_ID }}
