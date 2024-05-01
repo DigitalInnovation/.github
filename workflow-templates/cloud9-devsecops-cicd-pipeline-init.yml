@@ -1,4 +1,4 @@
-#This is an initialization workflow for copying Node starter workflow and sample app (if required)
+#This is an initialization workflow for CI/CD workflow and sample app (if required)
 name: devsecops-init-unified-pipeline
 on: 
   workflow_dispatch:
