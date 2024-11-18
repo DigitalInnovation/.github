@@ -13,6 +13,7 @@ on:
          - Retail  
          - Platform Services(On-prem/Cloud)
          - Selling Experience
+         - Enterprise Digital Workplace Services
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
@@ -32,6 +33,7 @@ on:
          - Pay With Me
          - BMC Remedy Service Management (Remedy)
          - Product Services
+         - Airwatch
       change_description:
         description: 'Change Description'
         required: true
