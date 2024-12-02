@@ -66,7 +66,7 @@ on:
         required: true
         type: string 
       risk_impact:
-        description: 'For Risk and Impact assessment agreement, please refer this link - https://vigilant-guide-9k2weyp.pages.github.io/change-management-r&i.html'
+        description: 'For Risk and Impact assessment agreement, please refer this link - https://musical-guide-y64j1lw.pages.github.io/change-management-r&i.html'
         required: true
         type: choice
         options:
