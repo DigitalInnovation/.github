@@ -1,4 +1,4 @@
-name: PROD - Remedy Change creation workflow
+name: QA - Remedy Change creation workflow
 on: 
   workflow_dispatch:
     inputs:
@@ -10,10 +10,8 @@ on:
          - Foods
          - C&H Core
          - International
-         - Retail  
-         - Platform Services(On-prem/Cloud)
+         - Retail
          - Selling Experience
-         - Enterprise Digital Workplace Services
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
@@ -31,9 +29,7 @@ on:
          - FOA Orchestration Layer
          - Partner Integration 
          - Pay With Me
-         - BMC Remedy Service Management (Remedy)
          - Product Services
-         - Airwatch
       change_description:
         description: 'Change Description'
         required: true
@@ -79,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:      
     - name: Call BMC Endpoints and get response
-      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/bmc-helix-cr-prod@latest
+      uses: DigitalInnovation/cloud-devsecops-pipelineactions/workflows/CD/bmc-helix-cr-qa@latest
       with: 
         action: "create"
         portfolio: ${{ github.event.inputs.portfolio }}
@@ -93,9 +89,12 @@ jobs:
         business_impact: ${{ github.event.inputs.business_impact }}
         risk_impact: ${{ github.event.inputs.risk_impact }}
         bmc_username: GitHub.APIUser
-        bmc_password: ${{ secrets.PROD_BMC_REMEDY_API_PASSWORD  }}
+        bmc_password: ${{ secrets.BMC_REMEDY_API_PASSWORD  }}
         helix_username: github
-        helix_password: ${{ secrets.PROD_BMC_HELIX_API_PASSWORD  }}
+        helix_password: ${{ secrets.BMC_HELIX_API_PASSWORD  }}
         
   
         
+      
+       
+       
