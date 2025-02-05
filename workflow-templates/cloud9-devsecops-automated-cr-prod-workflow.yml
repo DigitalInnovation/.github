@@ -7,14 +7,16 @@ on:
         required: true
         type: choice
         options:
-         - Food
+         - Foods
          - C&H Core
-         - International Commercial Trading
+         - International
          - Retail  
          - Platform Services(On-prem/Cloud)
          - Selling Experience
          - Enterprise Digital Workplace Services
-         - Enterprise Technology Platforms
+         - C&H Supply Chain and Logistics
+         - Customer and Loyalty
+         - Corporate
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
