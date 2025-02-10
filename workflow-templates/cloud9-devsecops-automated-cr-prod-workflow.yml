@@ -17,6 +17,10 @@ on:
          - C&H Supply Chain and Logistics
          - Customer and Loyalty
          - Corporate
+         - Data Portfolio
+         - M&S.Com
+         - SAP
+         - Technology Services(ES, Integration)
       start_date:
         description: 'Change Implementation Start Date (YYYY-MM-DDTHH:MM:SS).Provide future date'
         required: true
@@ -38,6 +42,7 @@ on:
          - Product Services
          - Airwatch
          - GitHub Actions
+         - Muziris
       change_description:
         description: 'Change Description'
         required: true
