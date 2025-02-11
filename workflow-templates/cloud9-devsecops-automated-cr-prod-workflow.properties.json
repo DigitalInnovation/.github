@@ -1,6 +1,6 @@
 {
     "name": "M&S - Automated CR workflow (PROD)",
-    "description": "M&S - Cloud9 DevSecOps Automated CR PROD workflow",
+    "description": "M&S - Cloud9 DevSecOps Automated CR PROD workflow (this is currently only for 4 wall change with approval)",
     "iconName": "BMC_Software_logo_(2014)",
     "filePatterns": [
         ".*\\.md$"              
