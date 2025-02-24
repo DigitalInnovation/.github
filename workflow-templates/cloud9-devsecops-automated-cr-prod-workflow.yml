@@ -44,7 +44,7 @@ on:
          - GitHub Actions
          - Muziris
       change_description:
-        description: 'Change Description'
+        description: 'Change Description in the form "<CR title/summary>; <CR description>" with CR summary length of max. 100 characters'
         required: true
         type: string
       change_category:
