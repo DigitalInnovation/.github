@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-semgrep:
-    uses: DigitalInnovation/semgrep-appsec-workflow/.github/workflows/semgrep_webapps.yml@v2.1.12
+    uses: DigitalInnovation/semgrep-appsec-workflow/.github/workflows/semgrep_webapps.yml@v2.1.14
     #with:
       #fail-on: '<Value is either HIGH, MEDIUM or LOW to fail the build on having vulnerabilities with these severitites(Optional Parameter)>'
       #include-patterns: '<Patterns to include in scanning. Supply as comma-separated values(Optional Parameter)>'
