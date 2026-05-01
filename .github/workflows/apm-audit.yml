@@ -1,0 +1,66 @@
+# Reusable workflow: APM audit for any consumer repo in the org.
+#
+# Usage in a consumer repo:
+#
+#   jobs:
+#     apm-audit:
+#       uses: DigitalInnovation/.github/.github/workflows/apm-audit.yml@main
+#       with:
+#         enforcement: warn   # or "block" once your repo is ready
+#
+# During the org-wide WARN phase this workflow MUST NOT be a required check.
+# Once `apm-policy.yml` flips to `enforcement: block`, platform-engineering
+# will set this as a required status check across the org.
+
+name: APM Audit (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      enforcement:
+        description: "Override audit enforcement: warn | block"
+        type: string
+        default: warn
+      apm-version:
+        description: "APM CLI version to install (or 'latest')"
+        type: string
+        default: latest
+
+permissions:
+  contents: read
+  security-events: write   # so audit findings can flow to Code Scanning
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install APM CLI
+        env:
+          APM_VERSION: ${{ inputs.apm-version }}
+        run: |
+          curl -sSL https://aka.ms/apm-unix | sh
+          echo "$HOME/.apm/bin" >> "$GITHUB_PATH"
+
+      - name: apm install (resolve + lockfile)
+        run: apm install --frozen-lockfile
+
+      - name: apm audit --ci
+        env:
+          APM_ENFORCEMENT: ${{ inputs.enforcement }}
+        run: |
+          # During the WARN phase we never fail the build; we still surface
+          # findings via the SARIF upload below.
+          if [ "$APM_ENFORCEMENT" = "block" ]; then
+            apm audit --ci --sarif apm-audit.sarif
+          else
+            apm audit --ci --sarif apm-audit.sarif || true
+          fi
+
+      - name: Upload SARIF to Code Scanning
+        if: always() && hashFiles('apm-audit.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: apm-audit.sarif
+          category: apm-audit

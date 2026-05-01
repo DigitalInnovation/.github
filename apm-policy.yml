@@ -1,0 +1,83 @@
+# Org-wide APM governance policy for DigitalInnovation.
+#
+# This file is auto-discovered by `apm install` and `apm audit --ci` in every
+# repo whose git remote points into the DigitalInnovation org. Branch
+# protection + CODEOWNERS on this repo are what make the policy authoritative
+# (see https://microsoft.github.io/apm/enterprise/governance-guide/, §12).
+#
+# Rollout phase: WARN. We are gathering signal via Code Scanning before
+# flipping `enforcement` to `block`. Do not flip without platform-team sign-off.
+
+version: 1
+enforcement: warn
+
+dependencies:
+  # Allow anything inside our org plus the curated upstreams we vet.
+  allow:
+    - "DigitalInnovation/*"
+    - "microsoft/apm-sample-package"
+    - "microsoft/GitHub-Copilot-for-Azure/*"
+    - "anthropics/skills/*"
+    - "github/awesome-copilot/*"
+
+  # Hard blocks. Add forks/abandonware here as they are discovered.
+  deny: []
+
+  # Packages every repo MUST resolve. Empty during warn phase; populate once
+  # `enforcement: block` is enabled (e.g. require the org coding-standards pkg).
+  require: []
+
+  # Cap transitive depth to keep the dependency tree reviewable.
+  max_depth: 5
+
+mcp:
+  # Allow-list of MCP servers consumable from APM packages. Names match the
+  # registry name (e.g. `io.github.github/github-mcp-server`); command/args
+  # of self-defined servers are NOT validated by APM — see governance guide §4.
+  allow:
+    - "io.github.github/github-mcp-server"
+    - "microsoft/playwright"
+  deny: []
+
+  transport:
+    # Prefer http/https-based transports over arbitrary local stdio binaries.
+    allow:
+      - http
+      - sse
+      - stdio
+
+  # Self-defined (inline command/args) MCP servers must be opted in explicitly
+  # by the consuming repo's manifest; deny by default at the org level.
+  self_defined: deny
+
+compilation:
+  target:
+    # Restrict which agent harnesses APM is allowed to compile for. Add
+    # entries as new harnesses are formally supported by the platform team.
+    allow:
+      - copilot
+      - claude
+      - cursor
+    enforce: true
+
+  # Audit-only checks (not enforced at install). Surfaced via `apm audit --ci`.
+  strategy:
+    enforce: warn
+  source_attribution: required
+
+manifest:
+  required_fields:
+    - name
+    - version
+    - description
+  scripts: warn
+  require_explicit_includes: false
+
+unmanaged_files:
+  # Audit-only: flag files in governed dirs that aren't tracked by the manifest.
+  action: warn
+  directories:
+    - .github/skills
+    - .github/agents
+    - .github/prompts
+    - .github/instructions
