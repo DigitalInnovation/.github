@@ -52,12 +52,11 @@ mcp:
 
 compilation:
   target:
-    # Restrict which agent harnesses APM is allowed to compile for. Add
-    # entries as new harnesses are formally supported by the platform team.
+    # Restrict which agent harnesses APM is allowed to compile for.
+    # Copilot only — add entries as new harnesses are formally supported by
+    # principal-engineers.
     allow:
       - copilot
-      - claude
-      - cursor
     enforce: true
 
   # Audit-only checks (not enforced at install). Surfaced via `apm audit --ci`.

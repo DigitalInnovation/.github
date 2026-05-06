@@ -1,5 +1,5 @@
 # Code owners for the org-wide APM policy and reusable governance workflow.
 # Changes here affect every repo in the org — gate them tightly.
 
-apm-policy.yml                          @DigitalInnovation/platform-engineering
-.github/workflows/apm-audit.yml         @DigitalInnovation/platform-engineering
+apm-policy.yml                          @DigitalInnovation/principal-engineers
+.github/workflows/apm-audit.yml         @DigitalInnovation/principal-engineers
