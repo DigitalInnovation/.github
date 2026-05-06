@@ -14,12 +14,12 @@ This repo hosts the org-wide APM trust seed:
 §11) is:
 
 1. Land the policy in `warn` mode. **(we are here)**
-2. Wire `apm-audit.yml` into repos as a non-required check; review SARIF
-   findings in Code Scanning.
+2. Wire `apm-audit.yml` into repos as a non-required check; review the audit log artifact
+   uploaded by each run.
 3. Burn down violations.
 4. Flip `enforcement: block` and make the audit job a required status check.
 
-Do not flip `enforcement: block` without platform-engineering sign-off.
+Do not flip `enforcement: block` without principal-engineers sign-off.
 
 ## Trust boundary
 

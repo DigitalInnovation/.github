@@ -9,7 +9,7 @@
 #         enforcement: warn   # or "block" once your repo is ready
 #
 # During the org-wide WARN phase this workflow MUST NOT be a required check.
-# Once `apm-policy.yml` flips to `enforcement: block`, platform-engineering
+# Once `apm-policy.yml` flips to `enforcement: block`, principal-engineers
 # will set this as a required status check across the org.
 
 name: APM Audit (reusable)
@@ -28,7 +28,6 @@ on:
 
 permissions:
   contents: read
-  security-events: write   # so audit findings can flow to Code Scanning
 
 jobs:
   audit:
@@ -50,17 +49,21 @@ jobs:
         env:
           APM_ENFORCEMENT: ${{ inputs.enforcement }}
         run: |
-          # During the WARN phase we never fail the build; we still surface
-          # findings via the SARIF upload below.
+          # During the WARN phase we never fail the build; findings are
+          # printed to the job log and uploaded as a build artifact below.
+          # (Code Scanning / SARIF upload requires GitHub Advanced Security,
+          # which is not enabled on this org — keep audit output local.)
+          mkdir -p apm-audit-out
           if [ "$APM_ENFORCEMENT" = "block" ]; then
-            apm audit --ci --sarif apm-audit.sarif
+            apm audit --ci | tee apm-audit-out/apm-audit.log
           else
-            apm audit --ci --sarif apm-audit.sarif || true
+            apm audit --ci | tee apm-audit-out/apm-audit.log || true
           fi
 
-      - name: Upload SARIF to Code Scanning
-        if: always() && hashFiles('apm-audit.sarif') != ''
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload audit log artifact
+        if: always() && hashFiles('apm-audit-out/apm-audit.log') != ''
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: apm-audit.sarif
-          category: apm-audit
+          name: apm-audit-log
+          path: apm-audit-out/apm-audit.log
+          retention-days: 30
