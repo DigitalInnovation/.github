@@ -1,0 +1,11 @@
+/* {
+    "name": "Spike (Test workflow)",
+    "description": "Only for testing purpose",
+    "iconName": "githubactions",
+    "filePatterns": [
+        ".*\\.md$",
+        "pom.xml$",
+		"settings.gradle$",
+        "package.json$"                
+    ]
+} */
