@@ -1,0 +1,24 @@
+name: Wiz IaC Scan
+
+on:
+  pull_request: {}
+  workflow_dispatch: {}
+  push:
+
+jobs:
+  call-wiz-iac-scan:
+    uses: DigitalInnovation/security-github-actions-iac/.github/workflows/wiz-iac-scan.yml@v1.7
+    with:
+      PROJECT_ID: ${{ vars.WIZ_PROJECT_ID }}
+      SCAN_PATH: .
+      REPO_NAME: ${{ github.event.repository.name }}
+    secrets:
+      WIZ_CLIENT_ID: ${{ secrets.WIZ_CLIENT_ID }}
+      WIZ_CLIENT_SECRET: ${{ secrets.WIZ_CLIENT_SECRET }}
+
+# PROJECT_ID: The Wiz Project ID used to associate scan results with the correct project in Wiz.
+# SCAN_PATH: The directory containing the Infrastructure-as-Code files to be scanned.
+#
+# Set the WIZ_PROJECT_ID repository variable to your Wiz Project ID.
+# Retrieve the project ID: https://devopssec.engineering.mnscorp.net/Products/Wiz-IaC/github-actions/#retrieve-the-project-id-from-the-wiz-portal
+# See https://devopssec.engineering.mnscorp.net/Products/Wiz-IaC/github-actions/ for integration details.

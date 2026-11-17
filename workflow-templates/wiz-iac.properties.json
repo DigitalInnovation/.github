@@ -1,0 +1,12 @@
+{
+    "name": "M&S - Wiz IaC Scan Workflow (Security)",
+    "description": "Wiz identifies security misconfigurations in Infrastructure-as-Code before deployment.",
+    "iconName": "wiz",
+    "filePatterns": [
+        ".*\\.tf$",
+        ".*\\.tf\\.json$",
+        ".*\\.ya?ml$",
+        ".*\\.json$",
+        ".*\\.bicep$"
+    ]
+}
