@@ -1,0 +1,11 @@
+# nonk8s
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: .github
+  annotations:
+    github.com/project-slug: DigitalInnovation/.github
+spec:
+  type: reusable-github-actions
+  owner: tn-p0604-idp-build-deploy
+  lifecycle: experimental
